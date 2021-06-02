@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './bulma.css';
 import './memo.css';
 
 const MemoListComponent = (props)=>{
+
 
     return(
 

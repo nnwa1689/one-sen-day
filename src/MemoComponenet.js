@@ -77,16 +77,13 @@ const MemoComponenet = (props)=>{
     }
 
     const willDelMemo = (e)=>{
-
-        console.log(e.target.value);
-        setWillDelMemoHash(e.target.value);
+        setWillDelMemoHash(e.currentTarget.value);
         setDelMemoState(0);
 
     }
 
     const delMemo = ()=>{
         setDelMemoState(2);
-        console.log(willDelMemoHash);
         firebase.database().ref('/oneSenDay/' + cookies.user + "/" + willDelMemoHash).set(null).then(
               ()=>{
                   console.log('deleded');
