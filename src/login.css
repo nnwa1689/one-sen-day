@@ -1,0 +1,24 @@
+:root {
+  --shadowDark: #D9DDE6;
+  --background: rgb(247, 247, 247);
+  --shadowLight: #EFF5FE;
+}
+
+body {
+  background: var(--background);
+}
+
+.hero-body {
+  justify-content: center;
+}
+
+.login {
+  border-radius: 10px;
+  padding: 1.5rem;
+  background-color: white;
+}
+
+
+a {
+  font-weight: 600;
+}

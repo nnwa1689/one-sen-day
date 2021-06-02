@@ -1,0 +1,95 @@
+:root {
+    --shadowDark: #D9DDE6;
+    --background: rgb(247, 247, 247);
+    --shadowLight: #EFF5FE;
+  }
+  
+body {
+    background: var(--background);
+  }
+
+html {
+    background: var(--background);
+  }
+
+.msgBox{
+    
+    position: fixed;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.25);
+    width: 100%;
+    height: 100%;
+    justify-content:center;
+    align-items: center;
+    padding-top: 10%;
+
+}
+
+.modal-card{
+
+    width:max-content;
+
+}
+
+.hero{
+    text-align: center;
+}
+
+.center{
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+.navbar {
+    left: 0;
+    z-index: 2;
+    justify-content: space-around;
+    width: 100%;
+    border-bottom: 1px solid lightgray;
+    margin-bottom: 10px;
+}
+.body-columns {
+    margin-top: 6vh;
+}
+.card {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+    box-shadow: none;
+    border-radius: 10px;
+}
+.card-content{
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 20px;
+    padding: 0;
+}
+.card .header {
+    padding: 20px 20px;
+}
+.card-footer .columns {
+    width: 100%;
+    text-align: right;
+}
+.card-footer .columns input {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+.card-footer .columns .column:last-child {
+    display: flex;
+    align-items: center;
+}
+.card-footer .columns .column:last-child button {
+    border: none;
+}
+.footer {
+    margin-top: 10vh;
+    padding: 2rem 1.5rem;
+}
+
+@media screen and (max-width: 786px){
+    .navbar {
+        justify-content: space-between;
+    }
+}

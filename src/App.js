@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
+import Memo from './Memo.js';
+import LoginForm from './LoginForm.js';
+import firebase from 'firebase';
+import FireBaseConfig from './FireBaseConfig.js';
+import RegisterFrom from './RegisterForm.js';
+import AccountSetting from './AccountSetting.js';
+import './bulma.css';
+import './memo.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = ()=>{
+
+  if(!firebase.apps.length){
+      firebase.initializeApp(FireBaseConfig);  
+  }
+  
+  return(
+    <HashRouter>
+      <Switch>
+        <Route exact path="/" component={Memo} />
+        <Route path="/login" component={LoginForm} />
+        <Route path="/register" component={RegisterFrom} />
+        <Route exact path="/accountsetting" component={AccountSetting} />
+      </Switch>
+    </HashRouter>
+  )
+
 }
 
 export default App;
