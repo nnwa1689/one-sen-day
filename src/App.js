@@ -14,6 +14,8 @@ const App = ()=>{
   if(!firebase.apps.length){
       firebase.initializeApp(FireBaseConfig);  
   }
+
+  document.title = "一句話日記 - 從此愛上簡單生活";
   
   return(
     <HashRouter>

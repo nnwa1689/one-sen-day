@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
 import firebase from 'firebase';
-import passwordHash from 'password-hash';
 import './bulma.css';
 import './register.css';
 import logo from './one-sentence-daily.svg';
@@ -11,81 +9,45 @@ const RegisterFrom = (props)=>{
     const [account, setAccount] = useState(null);
     const [password, setPassword] = useState(null);
     const [regState, setRegState] = useState(0);
-    //0:init, 1:suc, 2:exsitErr, 3:otherErr, 4:Logining
-    const [cookies, setCookie, removeCookie] = useCookies();
-
-    let targData = null;
+    //0:init, 1:suc, 2:exsitErr, 3:PwSixErr, 4:Logining, 5:mailFomartErr, 6:otherErr
+    
     const doRegister = ()=>{
 
         if(account===null || account==="" || password===null || password===""){
-
             alert("請輸入完整的資料");
-
         }else{
             setRegState(4);
-            try {
-                firebase.database().ref('/user/' + account).once("value", e => {
-                    targData = e.val();
-                }).then(
-                    ()=>{
-                        //尚未被註冊
-                        if(targData===null){
-                            let userRef = firebase.database().ref('/user/' + account);
-                            userRef.set(
-                                {
-                                    id: account,
-                                    password:hashPassword(password),
-                                    token: ""
-                                }
-                            ).then(
-                                ()=>{
-                                    setRegState(1);
-                                }
-                            )
-                        }else{
-                            setRegState(2);
-                        }
-    
-                    }
-                );
-            } catch (error) {
-                setRegState(3);
-            }
-
-
+            firebase
+            .auth()
+            .createUserWithEmailAndPassword(account, password)
+            .then(result => {
+                setRegState(1);
+            }).catch(function(error) {
+                if(error.code==="auth/invalid-email"){
+                    setRegState(5);
+                }else if(error.code==="auth/weak-password"){
+                    setRegState(3);
+                }else if(error.code==="auth/email-already-in-use"){
+                    setRegState(2);
+                }else{
+                    setRegState(6);
+                }
+            });
         }
 
     }
 
-    const hashPassword = (willHashPassword)=>{
-
-        return passwordHash.generate(willHashPassword);
-
-    }
-
     useEffect(
         ()=>{
-            
-            if(cookies.user_token){
-                window.location.href = '#/';
-            }
-
+            firebase.auth().onAuthStateChanged((user)=> {
+                if(user) {
+                  // 使用者已登入，redirect to Homepage
+                  window.location.href = '#/';
+                }
+              });
         },[]
     )
 
-    useEffect(
-        ()=>{
-            
-            if(regState===1){
-                setTimeout(() => {
-
-                    window.location.href = '#/login';
-            
-                }, 2000)
-            }
-
-        },[regState]
-    )
 
     return(
         <section className="container">
@@ -103,8 +65,8 @@ const RegisterFrom = (props)=>{
                     {
                         (regState===2) ?
                         (
-                        <div class="notification is-danger">
-                            很抱歉，該帳號名稱已經存在！
+                        <div className="notification is-danger">
+                            恩...這email已經被註冊
                         </div>
                         )
                         :
@@ -114,8 +76,30 @@ const RegisterFrom = (props)=>{
                     {
                         (regState===3) ?
                         (
-                        <div class="notification is-danger">
-                            奧奧，發生了一些錯誤，我們正在嘗試修復當中...
+                        <div className="notification is-danger">
+                            密碼要大於 6 位數OwO
+                        </div>
+                        )
+                        :
+                        ("")
+                    }
+
+                    {
+                        (regState===5) ?
+                        (
+                        <div className="notification is-danger">
+                            恩...這看起來不像Email
+                        </div>
+                        )
+                        :
+                        ("")
+                    }
+
+                    {
+                        (regState===6) ?
+                        (
+                        <div className="notification is-danger">
+                            發生了一些技術性問題，我們已經派出最有效率的長也去修正了，請稍後再來！
                         </div>
                         )
                         :
@@ -125,7 +109,7 @@ const RegisterFrom = (props)=>{
                     {
                         (regState===1) ?
                         (
-                        <div class="notification is-success">
+                        <div className="notification is-success">
                             哇，你的帳號已經建立好，馬上帶你去登入！
                         </div>
                         )

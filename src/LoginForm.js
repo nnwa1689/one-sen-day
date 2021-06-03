@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import firebase from 'firebase';
-import { useCookies } from 'react-cookie';
-import passwordHash from 'password-hash';
 import './bulma.css';
 import './login.css';
 import logo from './one-sentence-daily.svg';
@@ -11,19 +9,20 @@ const LoginForm = (props)=>{
     const [account, setAccount] = useState(null);
     const [password, setPassword] = useState(null);
     const [loginState, setLoginState] = useState(0);
-    //0:init, 1:suc, 2:pwErr, 3:otherErr, 4:Logining
+    //0:init, 1:suc, 2:pwErr, 3:emailFormattErr, 4:Logining 5:otherErr
     const [btnDis, setBtnDis] = useState(false);
-    const [cookies, setCookie, removeCookie] = useCookies();
-    let targData = "";
 
     //判斷使用者是否登入（或曾經登入）
     //交由 memo  去和 firebase 驗證
     useEffect(
         ()=>{
             
-            if(cookies.userToken && cookies.user){
-                window.location.href = '#/';
-            }
+            firebase.auth().onAuthStateChanged((user)=> {
+                if(user) {
+                  // 使用者已登入，redirect to Homepage
+                  window.location.href = '#/';
+                }
+              });
 
         },[]
     )
@@ -33,60 +32,26 @@ const LoginForm = (props)=>{
         if(account==null || account=="" || password==null || password==""){
             alert('請輸入帳號密碼')
         }else{
-            
             setBtnDis(true);
             setLoginState(4);
-            try {
-                firebase.database().ref('/user/' + account).once("value", e => {
-                    targData = e.val();
-                }).then(
-                    ()=>{
-                        loginIden();
-                    }
-                );
-            } catch (error) {
-                setLoginState(3);
-            }
-
+            firebase.auth()
+            .signInWithEmailAndPassword(account, password)
+            .then(result => {
+                setLoginState(1);
+                window.location.href = '#/';
+            })
+            .catch(error => {
+                if(error.code==="auth/invalid-email")
+                    setLoginState(3);
+                else if(error.code==="auth/wrong-password")
+                    setLoginState(2);
+                else if(error.code==="auth/user-not-found")
+                    setLoginState(2);
+                else
+                    setLoginState(5);
+                setBtnDis(false);
+            });
         }
-    }
-
-    const saveLoginToken = (loginToken)=>{
-
-        //localCookie
-        setCookie('user', account, { path: '/', maxAge: 604800 });
-        setCookie('userToken', loginToken, { path: '/', maxAge: 604800 });
-
-        //fireBase
-        try {
-            firebase.database().ref('/user/' + account).update({ token: loginToken })
-        } catch (error) {
-            
-        }
-        
-        //sessionStorage.setItem('User', account);
-    }
-
-    const loginTokenGen = ()=>{
-
-        const hashToken = passwordHash.generate(Date.now().toString())
-        return hashToken;
-
-    }
-
-    const loginIden = ()=>{
-        if(targData === null){
-            setLoginState(2);
-        }else if(passwordHash.verify(password, targData.password)){
-            setLoginState(1);
-            saveLoginToken(loginTokenGen());
-            window.location.href = '#/';
-        }else{
-            setLoginState(2);
-        }
-
-        setBtnDis(false);
-
     }
 
     return(
@@ -95,14 +60,24 @@ const LoginForm = (props)=>{
             <div className="hero-body has-text-centered">
                 <div className="login">
                 <img src={logo} width="325px" />
-                { loginState===2 ? 
-                            (
-                                <div className="notification is-danger">
-                                    帳號或密碼錯誤。
-                                </div>
-                            )
-                            :
-                            ("")
+                    { (loginState===2 || loginState===5) ? 
+                        (
+                            <div className="notification is-danger">
+                                帳號或密碼錯誤。
+                            </div>
+                        )
+                        :
+                        ("")
+                    }
+
+                    { loginState===3 ? 
+                        (
+                            <div className="notification is-danger">
+                                這看起來不像是Email欸＞＜
+                            </div>
+                        )
+                        :
+                        ("")
                     }
                 <form>
                     <div className="field">
@@ -117,14 +92,14 @@ const LoginForm = (props)=>{
                     </div>
                     <br />
                     { loginState===4 ? 
-                    (
-                        <progress className="progress is-small is-primary" max="100"></progress>
-                    ) 
-                    : 
-                    (
-                        <button disabled={btnDis} className="button is-block is-fullwidth is-primary is-medium is-rounded" onClick={doLogin}>登入</button>
-                    ) }
-                    
+                        (
+                            <progress className="progress is-small is-primary" max="100"></progress>
+                        ) 
+                        : 
+                        (
+                            <button disabled={btnDis} className="button is-block is-fullwidth is-primary is-medium is-rounded" onClick={doLogin}>登入</button>
+                        ) 
+                    }        
                 </form>
                 <br/>
                 <nav className="level">

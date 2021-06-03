@@ -1,7 +1,5 @@
 import React,{ useState, useEffect, useRef } from 'react';
 import firebase from 'firebase';
-import { useCookies } from 'react-cookie';
-import passwordHash from 'password-hash';
 import './bulma.css';
 import './login.css';
 import './register.css';
@@ -9,18 +7,17 @@ import logo from './one-sentence-daily.svg';
 
 const AccountSettingComponent = (props)=>{
 
-    const [cookies, setCookie, removeCookie] = useCookies();
     const [oldPw, setOldPw] = useState("");
     const [newPw, setNewPw] = useState("");
     const [newTwicePw, setTwiceNewPw] = useState("");
     const [updatePwState, setUpdatePwState] = useState(0);
-    //0:init 1:suc 2:updateing 3:oldPwErr 4:TwicePwErr 5:Nullerr
-    let targData = "";
+    const [userMail, setUserMail] =useState("");
+    //0:init 1:suc 2:updateing 3:oldPwErr 4:TwicePwErr 5:Nullerr 6:minMustBeLargeSixErr
 
     const updatePassword = ()=>{
         
         setUpdatePwState(2);
-        //確認兩次密碼一樣 有沒有空值
+        //驗證二次密碼
         if(newPw ==="" || newTwicePw==="" || oldPw===""){
             setUpdatePwState(5);
             return;
@@ -29,34 +26,50 @@ const AccountSettingComponent = (props)=>{
             return;
         }
 
-        //確認就密碼
-        firebase.database().ref('/user/' + cookies.user).once("value", e => {
-            targData = e.val();
-        }).then(
-            ()=>{
-                if( !passwordHash.verify(oldPw, targData.password) ){
-                    setUpdatePwState(3);
-                }else{
-                    //哈希並更新密碼
-                    firebase.database().ref('/user/' + cookies.user).update(
-                        {
-                            password: passwordHash.generate(newPw).toString()
-                        }).then(
-                        ()=>{
-                            setUpdatePwState(1);
-                            //ClearLoginStatus
-                            logout();
-                        }
-                    )
-                }
+        firebase.auth().onAuthStateChanged((user)=>{
+            if(user) {
+              // 驗證舊密碼
+              var credential = firebase.auth.EmailAuthProvider.credential(user.email, oldPw);
+              user.reauthenticateWithCredential(credential).then(()=> {
+                user.updatePassword(newPw).then(()=>{
+                    // 修改密碼完成
+                    setUpdatePwState(1);
+                    logout();
+                  }).catch((error)=> {
+                    if(error.code==="auth/weak-password"){
+                        setUpdatePwState(6);
+                    }else{
+                        setUpdatePwState(3);
+                    }
+                  });
+              }).catch((error)=>{
+                  setUpdatePwState(3);
+
+              });
+            } else {
+                window.location.href = '#/login';
             }
-        );
+          });
     }
 
     const logout = ()=>{
-        removeCookie('user', { path: '/'});
-        removeCookie('userToken', { path: '/'});
+        firebase.auth().signOut()
+        .then(()=> {
+            window.location.href = '#/login';
+        }).catch((error)=>{
+            //
+        });
     }
+
+    useEffect(
+        ()=>{
+            firebase.auth().onAuthStateChanged(function(user) {
+                if(user) {
+                    setUserMail(user.email);
+                }
+              });
+        }
+    )
 
     return(
 
@@ -66,6 +79,8 @@ const AccountSettingComponent = (props)=>{
                 <div className="header">
                     <div className="media">
                         <div className="media-content">
+                            <p>您好，{ userMail }，今天感覺還好嗎？</p>
+                            <br></br>
                             <p className="subtitle is-4">帳號密碼設定</p>
 
                             { updatePwState===1 ? 
@@ -82,6 +97,16 @@ const AccountSettingComponent = (props)=>{
                             (
                                 <div className="notification is-danger">
                                     請檢查有沒有東西沒填到。
+                                </div>
+                            )
+                            :
+                            ("")
+                            }
+
+                            { updatePwState===6 ? 
+                            (
+                                <div className="notification is-danger">
+                                    密碼要大於 6 個位數唷！
                                 </div>
                             )
                             :
@@ -115,7 +140,7 @@ const AccountSettingComponent = (props)=>{
                             <div class="field-body">
                                 <div class="field">
                                 <p class="control">
-                                    <input disabled={ (updatePwState === 2|| updatePwState===1)? true:false } class="input" type="password" placeholder="******" value={newPw} onChange={ (e)=>(setNewPw(e.target.value))  }/>
+                                    <input id="new-password" disabled={ (updatePwState === 2|| updatePwState===1)? true:false } class="input" type="password" placeholder="******" value={newPw} onChange={ (e)=>(setNewPw(e.target.value))  }/>
                                 </p>
                                 </div>
                             </div>
@@ -128,7 +153,7 @@ const AccountSettingComponent = (props)=>{
                             <div class="field-body">
                                 <div class="field">
                                 <p class="control">
-                                    <input disabled={ (updatePwState === 2|| updatePwState===1)? true:false } class="input" type="password" value={newTwicePw} placeholder="******" onChange={ (e)=>(setTwiceNewPw(e.target.value)) }/>
+                                    <input id="re-new-password" disabled={ (updatePwState === 2|| updatePwState===1)? true:false } class="input" type="password" value={newTwicePw} placeholder="******" onChange={ (e)=>(setTwiceNewPw(e.target.value)) }/>
                                 </p>
                                 </div>
                             </div>
@@ -141,7 +166,7 @@ const AccountSettingComponent = (props)=>{
                             <div class="field-body">
                                 <div class="field">
                                 <p class="control">
-                                    <input disabled={ (updatePwState === 2|| updatePwState===1)? true:false } class="input" type="password" value={ oldPw } placeholder="******" onChange={ (e)=>(setOldPw(e.target.value)) }/>
+                                    <input  id="old-password" disabled={ (updatePwState === 2|| updatePwState===1)? true:false } class="input" type="password" value={ oldPw } placeholder="******" onChange={ (e)=>(setOldPw(e.target.value)) }/>
                                 </p>
                                 </div>
                             </div>

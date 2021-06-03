@@ -1,22 +1,20 @@
-import React, { useState, useEffect, memo } from 'react';
+import React, { useState, useEffect } from 'react';
 import firebase from 'firebase';
-import { useCookies } from 'react-cookie';
 import './memo.css';
 import './bulma.css';
 import logo from './one-sentence-daily.svg';
 
 const NavComponent = (props)=>{
 
-    const [cookies, setCookie, removeCookie] = useCookies();
-
-
     const logout = ()=>{
-
-        removeCookie('user', { path: '/'});
-        removeCookie('userToken', { path: '/'});
+        firebase.auth().signOut()
+        .then(()=> {
+            window.location.href = '#/login';
+        }).catch((error)=>{
+        });
+        //removeCookie('user', { path: '/'});
+        //removeCookie('userToken', { path: '/'});
         //sessionStorage.removeItem('User');
-        window.location.href = '#/login';
-
     }
     return(
         

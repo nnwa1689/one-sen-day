@@ -1,19 +1,24 @@
 import React,{ useState, useEffect, useRef } from 'react';
 import MemoComponenet from './MemoComponenet';
 import NavComponent from './NavComponenet';
-import { useCookies } from 'react-cookie';
 import firebase from 'firebase';
 import FooterComponent from './FooterComponent';
 
 const Memo = (props)=>{
-    const [memoUpdate, setMemoUpdate] = useState(false);
-    const firstLoading = useRef(true);
-    const [cookies, setCookie, removeCookie] = useCookies();
-    let targData = null;
 
     useEffect(
         ()=>{
-            if(firstLoading.current == true){
+
+            firebase.auth().onAuthStateChanged((user)=>{
+                if(user) {
+                  // 使用者已登入，可以取得資料
+                  //pass
+                } else {
+                    window.location.href = '#/login';
+                }
+              });
+
+            /*if(firstLoading.current == true){
 
                 if(cookies.user && cookies.userToken){
                     //firebase token 驗證
@@ -41,7 +46,7 @@ const Memo = (props)=>{
 
                 }
                 
-            }
+            }*/
         }, []
     )
 

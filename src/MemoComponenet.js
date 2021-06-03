@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import MemoListComponent from './MemoListComponent';
 import firebase from 'firebase';
-import { useCookies } from 'react-cookie';
 import './memo.css';
 import './bulma.css';
 
@@ -12,15 +11,28 @@ const MemoComponenet = (props)=>{
     const renderCount = useRef(false);
     const [textDisabled, setTextDisabled] = useState(false);
     const [memoText, setMemoText] = useState("");
-    const [cookies, setCookie, removeCookie] = useCookies();
     const [addMemoState, setAddMemoState] = useState(0);
     // 0:init 1:suc 2: loading 3:error
     const [delMemoState, setDelMemoState] = useState(-1);
     // 0:willDel 1:suc 2:delLoading 3: error
     const [willDelMemoHash, setWillDelMemoHash] = useState(0);
+    const [userUid, setUserUid] = useState("");
+
+    const getUserUid= ()=>{
+        return new Promise((resolve, reject)=>{
+            firebase.auth().onAuthStateChanged((user)=>{
+            if(user) {
+              // 使用者已登入，可以取得資料
+              setUserUid(user.uid);
+              resolve(user.uid);
+            }else{
+                reject("SomeError");
+            }
+          });
+        });
+    }
 
     const getDate = ()=>{
-
         let newDate = new Date();
         let date = newDate.getDate();
         let month = ( ((newDate.getMonth() + 1).toString().length===1) ?  '0' + (newDate.getMonth() + 1).toString() : (newDate.getMonth() + 1));
@@ -30,7 +42,6 @@ const MemoComponenet = (props)=>{
         let sec = ( newDate.getSeconds().toString().length===1 ? ('0' + newDate.getSeconds().toString()) : (newDate.getSeconds()) )
         let day = ( newDate.getDay().toString().length===1 ? ('0' + newDate.getDay().toString()) : (newDate.getDay()) )
         return year + '-' + month + '-' + day + ' ' + hour + ':' + min + ':' + sec ;
-
     }
 
     const setColorWhite =()=>{ addMemo(""); }
@@ -41,12 +52,12 @@ const MemoComponenet = (props)=>{
 
 
     const addMemo = (memoColor)=>{
-
         if(memoText===""){
             alert('你沒有輸入任何東西');
         }else{
+            setTextDisabled(true);
             setAddMemoState(2);
-            firebase.database().ref('/oneSenDay/' + cookies.user).push({
+            firebase.database().ref('/oneSenDay/' + userUid).push({
                 content:memoText,
                 date: getDate(),
                 dateMark:Date.now(),
@@ -54,24 +65,23 @@ const MemoComponenet = (props)=>{
             }).then(() => {
                 setAddMemoState(1);
                 setMemoText("");
+                setTextDisabled(false);
             });
         }
     }
 
 
-    const getMemo = ()=>{
+    const getMemo = (userUid)=>{
         let targData = "";
-        firebase.database().ref('/oneSenDay/' + cookies.user).orderByChild('dateMark').once("value", e => {
+        firebase.database().ref('/oneSenDay/' + userUid).orderByChild('dateMark').once("value", e => {
             targData = e.val();
           }).then(
               ()=>{
-
                 if(targData===null){
                     setMemoItems("")
                 }else{
                     setMemoItems(targData);
-                }
-                
+                }  
               }
           );
     }
@@ -84,12 +94,11 @@ const MemoComponenet = (props)=>{
 
     const delMemo = ()=>{
         setDelMemoState(2);
-        firebase.database().ref('/oneSenDay/' + cookies.user + "/" + willDelMemoHash).set(null).then(
+        firebase.database().ref('/oneSenDay/' + userUid + "/" + willDelMemoHash).set(null).then(
               ()=>{
-                  console.log('deleded');
+
                 setDelMemoState(1);
-                setWillDelMemoHash(0);
-                
+                setWillDelMemoHash(0);    
               }
           );
     }
@@ -97,7 +106,13 @@ const MemoComponenet = (props)=>{
     useEffect(
         ()=>{
             if(renderCount.current === false){
-                getMemo();
+                getUserUid().then(
+                    (userUid)=>{
+                        setUserUid(userUid);
+                        getMemo(userUid);
+                    }
+                );
+                
                 renderCount.current= true;
             }
         },[]
@@ -106,7 +121,7 @@ const MemoComponenet = (props)=>{
     useEffect(
         ()=>{
             if(addMemoState === 1 || delMemoState===1){
-                getMemo();
+                getMemo(userUid);
             }
         },[addMemoState, delMemoState]
     )
@@ -133,7 +148,7 @@ const MemoComponenet = (props)=>{
                                     <div className="control">
                                         <div className="field">
                                             <div className="control">
-                                                <textarea rows="1" className="textarea is-medium has-fixed-size" placeholder="我覺得......" onChange={(e)=>(setMemoText(e.target.value))}></textarea>
+                                                <textarea disabled={ textDisabled } rows="1" className="textarea is-medium has-fixed-size" placeholder="我覺得......" onChange={(e)=>(setMemoText(e.target.value))}></textarea>
                                             </div>
                                             </div>
                                     </div>
@@ -143,22 +158,22 @@ const MemoComponenet = (props)=>{
                             <br></br>
                                 <div className="center">
                                 
-                                    <button className="button is-rounded" onClick={setColorWhite}>白</button>
-                                    <button className="button is-warning is-rounded" onClick={setColorYellow}>黃</button>
-                                    <button className="button is-link is-rounded" onClick={setColorBlue}>藍</button>
-                                    <button className="button is-success is-rounded" onClick={setColorGreen}>綠</button>
-                                    <button className="button is-danger is-rounded" onClick={setColorRed}>紅</button>
+                                    <button disabled={ textDisabled } className="button is-rounded" onClick={setColorWhite}>白</button>
+                                    <button disabled={ textDisabled } className="button is-warning is-rounded" onClick={setColorYellow}>黃</button>
+                                    <button disabled={ textDisabled } className="button is-link is-rounded" onClick={setColorBlue}>藍</button>
+                                    <button disabled={ textDisabled } className="button is-success is-rounded" onClick={setColorGreen}>綠</button>
+                                    <button disabled={ textDisabled } className="button is-danger is-rounded" onClick={setColorRed}>紅</button>
                                 </div>
                         </div>
                         </div>
                     </section>
-                    <section class="hero is-success is-halfheight">
-                        <div class="hero-body">
-                            <div class="">
-                            <p class="title">
+                    <section className="hero is-success is-halfheight">
+                        <div className="hero-body">
+                            <div className="">
+                            <p className="title">
                                 嗨
                             </p>
-                            <p class="subtitle">
+                            <p className="subtitle">
                                 快發表你的第一篇一句話日記吧！
                             </p>
                             </div>
