@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import firebase from 'firebase';
-import './memo.css';
+import React from 'react';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import './Memo/memo.css';
 import './bulma.css';
 import logo from './one-sentence-daily.svg';
 
@@ -12,14 +13,10 @@ const NavComponent = (props)=>{
             window.location.href = '#/login';
         }).catch((error)=>{
         });
-        //removeCookie('user', { path: '/'});
-        //removeCookie('userToken', { path: '/'});
-        //sessionStorage.removeItem('User');
     }
     return(
         
         <div>
-
             <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
             <nav className="navbar is-fixed-top is-white">
                 <div className="navbar-brand">
@@ -33,9 +30,7 @@ const NavComponent = (props)=>{
                     <a onClick={logout} className="navbar-item">
                         <i className="material-icons">logout</i>
                     </a>
-                </div>
-
-                
+                </div>  
             </nav>
                 {props.children}
         </div>

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import firebase from 'firebase';
-import './bulma.css';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import '../bulma.css';
 import './register.css';
-import logo from './one-sentence-daily.svg';
+import logo from '../one-sentence-daily.svg';
 
 const RegisterFrom = (props)=>{
 
@@ -174,9 +175,7 @@ const RegisterFrom = (props)=>{
                 </div>
             </div>
         </section>
-
     )
-
 }
 
 export default RegisterFrom;

@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
-import Memo from './Memo.js';
-import LoginForm from './LoginForm.js';
-import firebase from 'firebase';
+import Memo from './Memo/Memo.js';
+import LoginForm from './LoginForm/LoginForm.js';
+import firebase from 'firebase/app';
 import FireBaseConfig from './FireBaseConfig.js';
-import RegisterFrom from './RegisterForm.js';
-import AccountSetting from './AccountSetting.js';
+import RegisterFrom from './Register/RegisterForm.js';
+import AccountSetting from './AccountSetting/AccountSetting.js';
 import './bulma.css';
-import './memo.css';
+import './Memo/memo.css';
 
 const App = ()=>{
 
@@ -27,7 +27,5 @@ const App = ()=>{
       </Switch>
     </HashRouter>
   )
-
 }
-
 export default App;

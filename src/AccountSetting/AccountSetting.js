@@ -1,8 +1,9 @@
 import React,{ useState, useEffect, useRef } from 'react';
-import NavComponent from './NavComponenet';
-import firebase from 'firebase';
-import FooterComponent from './FooterComponent';
-import AccountSettingComponent from './AccountSettingComponent.js';
+import NavComponent from '../NavComponenet';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import FooterComponent from '../FooterComponent';
+import AccountSettingComponent from '../AccountSetting/AccountSettingComponent.js';
 
 const Memo = (props)=>{
     const firstLoading = useRef(true);

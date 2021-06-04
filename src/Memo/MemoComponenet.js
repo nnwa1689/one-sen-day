@@ -1,13 +1,20 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import MemoListComponent from './MemoListComponent';
-import firebase from 'firebase';
+import InfiniteScroll from 'react-infinite-scroller';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
 import './memo.css';
-import './bulma.css';
+import '../bulma.css';
 
 
 const MemoComponenet = (props)=>{
 
     const [memoItems, setMemoItems] = useState(null);
+    const [hasData, setHasData] = useState(true);
+    const [pageEnd, setPageEnd] = useState(0);
+    let scrollLoadData = Array();
+
     const renderCount = useRef(false);
     const [textDisabled, setTextDisabled] = useState(false);
     const [memoText, setMemoText] = useState("");
@@ -70,17 +77,32 @@ const MemoComponenet = (props)=>{
         }
     }
 
-
+    //from firebase loading memoData, then save to memoItems(include compoment)
     const getMemo = (userUid)=>{
-        let targData = "";
+        let targData, changeArray = "";
         firebase.database().ref('/oneSenDay/' + userUid).orderByChild('dateMark').once("value", e => {
             targData = e.val();
           }).then(
               ()=>{
                 if(targData===null){
-                    setMemoItems("")
+                    setMemoItems("");
                 }else{
-                    setMemoItems(targData);
+                    //push to Array
+                    changeArray = Array();
+                    Object.entries(targData).reverse().map( (memoItem, key, )=>(
+                        changeArray.push(
+                            <MemoListComponent 
+                            key={memoItem[0]}
+                            memoHash={memoItem[0]}
+                            memoContent={memoItem[1].content}
+                            memoDate={memoItem[1].date}
+                            memoColor={memoItem[1].color}
+                            doDelMemo={willDelMemo}
+                            >    
+                            </MemoListComponent>
+                        )
+                    ));
+                    setMemoItems(changeArray);
                 }  
               }
           );
@@ -112,7 +134,6 @@ const MemoComponenet = (props)=>{
                         getMemo(userUid);
                     }
                 );
-                
                 renderCount.current= true;
             }
         },[]
@@ -126,9 +147,7 @@ const MemoComponenet = (props)=>{
         },[addMemoState, delMemoState]
     )
 
-
     if(memoItems==null){
-
         return(
             <div>
                 <br/><br/><br/><br/>
@@ -136,7 +155,6 @@ const MemoComponenet = (props)=>{
             </div>            
         )
     }else if(memoItems===""){
-
         return(
             <div className="columns body-columns">
                 <div className="column is-half is-offset-one-quarter">
@@ -157,8 +175,7 @@ const MemoComponenet = (props)=>{
                             <p>你的心情比較像是什麼顏色？</p>
                             <br></br>
                                 <div className="center">
-                                
-                                    <button disabled={ textDisabled } className="button is-rounded" onClick={setColorWhite}>白</button>
+                                    <button disabled={ textDisabled } className="button is-rounded " onClick={setColorWhite}>白</button>
                                     <button disabled={ textDisabled } className="button is-warning is-rounded" onClick={setColorYellow}>黃</button>
                                     <button disabled={ textDisabled } className="button is-link is-rounded" onClick={setColorBlue}>藍</button>
                                     <button disabled={ textDisabled } className="button is-success is-rounded" onClick={setColorGreen}>綠</button>
@@ -182,16 +199,12 @@ const MemoComponenet = (props)=>{
                     {props.children}
                 </div>
             </div>
-
         )
 
     }else{
-
         return(
-
             <div>
                 {
-
                     (delMemoState===0) ? 
                     (
                     <div className="msgBox">
@@ -209,12 +222,7 @@ const MemoComponenet = (props)=>{
                 )
                     :
                     ("")
-
                 }
-
-                
-
-
                 <div className="columns body-columns">
                     <div className="column is-half is-offset-one-quarter">
                         <section className="hero is-primary">
@@ -243,29 +251,29 @@ const MemoComponenet = (props)=>{
                             </div>
                             </div>
                         </section>
-
-                        
-                        {
-                            (
-                                Object.entries(memoItems).reverse().map( (memoItem, key, )=>(
-                                    <MemoListComponent 
-                                    key={memoItem[0]}
-                                    memoHash={memoItem[0]}
-                                    memoContent={memoItem[1].content}
-                                    memoDate={memoItem[1].date}
-                                    memoColor={memoItem[1].color}
-                                    doDelMemo={willDelMemo}
-                                    >    
-                                    </MemoListComponent>
-
-                                    ))
-                            )
-                        }
+                        <InfiniteScroll
+                            pageStart={0}
+                            loadMore={
+                                ()=>{
+                                    setPageEnd(pageEnd + 5);
+                                    if(pageEnd >= memoItems.length){
+                                        setHasData(false);
+                                    }
+                                }
+                            }
+                            hasMore={hasData}
+                            loader={
+                            <div key="0">
+                                <br/><br/><br/><br/>
+                                <progress className="progress is-small is-primary" max="100"></progress>
+                            </div> }
+                        >
+                            {memoItems.slice(0, pageEnd)}
+                        </InfiniteScroll>
                     </div>
                 </div>
                 {props.children}
             </div>
-
         )
 
     }

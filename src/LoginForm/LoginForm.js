@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import firebase from 'firebase';
-import './bulma.css';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import '../bulma.css';
 import './login.css';
-import logo from './one-sentence-daily.svg';
+import logo from '../one-sentence-daily.svg';
 
 const LoginForm = (props)=>{
 

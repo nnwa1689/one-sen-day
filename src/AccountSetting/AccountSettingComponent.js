@@ -1,9 +1,10 @@
 import React,{ useState, useEffect, useRef } from 'react';
-import firebase from 'firebase';
-import './bulma.css';
-import './login.css';
-import './register.css';
-import logo from './one-sentence-daily.svg';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import '../bulma.css';
+import '../LoginForm/login.css';
+import '../Register/register.css';
+import logo from '../one-sentence-daily.svg';
 
 const AccountSettingComponent = (props)=>{
 

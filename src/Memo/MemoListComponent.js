@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import './bulma.css';
+import React from 'react';
+import '../bulma.css';
 import './memo.css';
 
 const MemoListComponent = (props)=>{
@@ -28,23 +28,19 @@ const MemoListComponent = (props)=>{
                     </section>
                 </div>
 
-                <div className="card-footer">
-                    <div className="level is-mobile">
-                        <div className="level-rigth">
-                            <div className="level-item has-text-centered">
-                                <button value={props.memoHash} className="button" onClick={props.doDelMemo}>
-                                    <span className="icon is-small">
-                                        <i className="material-icons">delete_forever</i>
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <footer class="card-footer">
+                    <a class="card-footer-item"></a>
+                    <a class="card-footer-item"></a>
+                    <a class="card-footer-item">                            
+                        <button value={props.memoHash} className="button is-danger is-outlined" onClick={props.doDelMemo}>
+                            <span className="icon is-small">
+                                <i className="material-icons">delete_forever</i>
+                                </span>
+                            </button>
+                        </a>
+                </footer>
             </div>
         </div>
     )
-
 }
-
 export default MemoListComponent;
