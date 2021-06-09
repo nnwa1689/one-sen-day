@@ -121,7 +121,7 @@ const RegisterFrom = (props)=>{
                     <form>
                         <div className="field">
                         <div className="control">
-                            <input className="input is-medium" type="text" placeholder="帳號" disabled={((regState===4 || regState===1)? true:false)} onChange={(e)=>{setAccount(e.target.value)}}/>
+                            <input className="input is-medium" type="text" placeholder="帳號（E-mail）" disabled={((regState===4 || regState===1)? true:false)} onChange={(e)=>{setAccount(e.target.value)}}/>
                         </div>
                         </div>
 

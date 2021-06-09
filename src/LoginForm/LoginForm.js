@@ -83,7 +83,7 @@ const LoginForm = (props)=>{
                 <form>
                     <div className="field">
                     <div className="control">
-                        <input disabled={btnDis} className="input is-medium is-rounded" type="text" placeholder="帳號" autoComplete="username" onChange={(e)=>{setAccount(e.target.value)}} />
+                        <input disabled={btnDis} className="input is-medium is-rounded" type="text" placeholder="帳號（E-mail）" autoComplete="username" onChange={(e)=>{setAccount(e.target.value)}} />
                     </div>
                     </div>
                     <div className="field">

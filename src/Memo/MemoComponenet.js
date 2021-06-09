@@ -39,15 +39,14 @@ const MemoComponenet = (props)=>{
         });
     }
 
-    const getDate = ()=>{
-        let newDate = new Date();
-        let date = newDate.getDate();
+    const getDate = (timestamp)=>{
+        let newDate = new Date(timestamp);
         let month = ( ((newDate.getMonth() + 1).toString().length===1) ?  '0' + (newDate.getMonth() + 1).toString() : (newDate.getMonth() + 1));
         let year = newDate.getFullYear();
         let hour = ( newDate.getHours().toString().length===1 ? ('0' + newDate.getHours().toString()) : (newDate.getHours()) );
         let min = ( newDate.getMinutes().toString().length===1 ? ('0' + newDate.getMinutes().toString()) : (newDate.getMinutes()) )
         let sec = ( newDate.getSeconds().toString().length===1 ? ('0' + newDate.getSeconds().toString()) : (newDate.getSeconds()) )
-        let day = ( newDate.getDay().toString().length===1 ? ('0' + newDate.getDay().toString()) : (newDate.getDay()) )
+        let day = ( newDate.getDate().toString().length===1 ? ('0' + newDate.getDate().toString()) : (newDate.getDate()) )
         return year + '-' + month + '-' + day + ' ' + hour + ':' + min + ':' + sec ;
     }
 
@@ -66,8 +65,7 @@ const MemoComponenet = (props)=>{
             setAddMemoState(2);
             firebase.database().ref('/oneSenDay/' + userUid).push({
                 content:memoText,
-                date: getDate(),
-                dateMark:Date.now(),
+                dateMark:firebase.database.ServerValue.TIMESTAMP,
                 color: memoColor
             }).then(() => {
                 setAddMemoState(1);
@@ -95,7 +93,7 @@ const MemoComponenet = (props)=>{
                             key={memoItem[0]}
                             memoHash={memoItem[0]}
                             memoContent={memoItem[1].content}
-                            memoDate={memoItem[1].date}
+                            memoDate={getDate(memoItem[1].dateMark)}
                             memoColor={memoItem[1].color}
                             doDelMemo={willDelMemo}
                             >    
