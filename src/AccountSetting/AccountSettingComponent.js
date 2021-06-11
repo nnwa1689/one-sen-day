@@ -1,4 +1,4 @@
-import React,{ useState, useEffect, useRef } from 'react';
+import React,{ useState, useEffect } from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import '../bulma.css';
@@ -202,7 +202,6 @@ const AccountSettingComponent = (props)=>{
 
         </div>
     )
-
 }
 
 export default AccountSettingComponent;

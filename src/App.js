@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 import Memo from './Memo/Memo.js';
 import LoginForm from './LoginForm/LoginForm.js';
 import firebase from 'firebase/app';

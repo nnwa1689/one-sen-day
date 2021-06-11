@@ -5,9 +5,8 @@ import 'firebase/auth';
 import FooterComponent from '../FooterComponent';
 import AccountSettingComponent from '../AccountSetting/AccountSettingComponent.js';
 
-const Memo = (props)=>{
+const AccountSetting = (props)=>{
     const firstLoading = useRef(true);
-
     useEffect(
         ()=>{
             if(firstLoading.current == true){
@@ -22,14 +21,12 @@ const Memo = (props)=>{
             }
         }, []
     )
-
     return(
-        <NavComponent>
+        <>
+            <NavComponent></NavComponent>
             <AccountSettingComponent></AccountSettingComponent>
             <FooterComponent></FooterComponent>
-        </NavComponent>
+        </>
     )
-
 }
-
-export default Memo;
+export default AccountSetting;

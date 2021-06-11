@@ -7,30 +7,28 @@ import 'firebase/database';
 import './memo.css';
 import '../bulma.css';
 
-
 const MemoComponenet = (props)=>{
 
-    const [memoItems, setMemoItems] = useState(null);
-    const [hasData, setHasData] = useState(true);
-    const [pageEnd, setPageEnd] = useState(0);
-    let scrollLoadData = Array();
-
+    const hasData = useRef(true);
     const renderCount = useRef(false);
+    const willDelMemoHash = useRef(0);
+    const userUid = useRef("");
+    const [pageEnd, setPageEnd] = useState(0);
+    const [memoItems, setMemoItems] = useState(null);
     const [textDisabled, setTextDisabled] = useState(false);
     const [memoText, setMemoText] = useState("");
     const [addMemoState, setAddMemoState] = useState(0);
-    // 0:init 1:suc 2: loading 3:error
+    // 0:init 1:suc 2: loading 3:error 4:isNone
     const [delMemoState, setDelMemoState] = useState(-1);
     // 0:willDel 1:suc 2:delLoading 3: error
-    const [willDelMemoHash, setWillDelMemoHash] = useState(0);
-    const [userUid, setUserUid] = useState("");
 
     const getUserUid= ()=>{
         return new Promise((resolve, reject)=>{
             firebase.auth().onAuthStateChanged((user)=>{
             if(user) {
               // 使用者已登入，可以取得資料
-              setUserUid(user.uid);
+              //setUserUid(user.uid);
+              userUid.current = user.uid;
               resolve(user.uid);
             }else{
                 reject("SomeError");
@@ -56,14 +54,13 @@ const MemoComponenet = (props)=>{
     const setColorGreen = ()=>{ addMemo("is-success"); }
     const setColorRed = ()=>{  addMemo("is-danger"); }
 
-
     const addMemo = (memoColor)=>{
         if(memoText===""){
-            alert('你沒有輸入任何東西');
+            setAddMemoState(4);
         }else{
             setTextDisabled(true);
             setAddMemoState(2);
-            firebase.database().ref('/oneSenDay/' + userUid).push({
+            firebase.database().ref('/oneSenDay/' + userUid.current).push({
                 content:memoText,
                 dateMark:firebase.database.ServerValue.TIMESTAMP,
                 color: memoColor
@@ -76,9 +73,9 @@ const MemoComponenet = (props)=>{
     }
 
     //from firebase loading memoData, then save to memoItems(include compoment)
-    const getMemo = (userUid)=>{
+    const getMemo = ()=>{
         let targData, changeArray = "";
-        firebase.database().ref('/oneSenDay/' + userUid).orderByChild('dateMark').once("value", e => {
+        firebase.database().ref('/oneSenDay/' + userUid.current).orderByChild('dateMark').once("value", e => {
             targData = e.val();
           }).then(
               ()=>{
@@ -107,42 +104,35 @@ const MemoComponenet = (props)=>{
     }
 
     const willDelMemo = (e)=>{
-        setWillDelMemoHash(e.currentTarget.value);
+        willDelMemoHash.current = e.currentTarget.value;
         setDelMemoState(0);
-
     }
 
     const delMemo = ()=>{
         setDelMemoState(2);
-        firebase.database().ref('/oneSenDay/' + userUid + "/" + willDelMemoHash).set(null).then(
+        firebase.database().ref('/oneSenDay/' + userUid.current + "/" + willDelMemoHash.current).set(null).then(
               ()=>{
-
                 setDelMemoState(1);
-                setWillDelMemoHash(0);    
+                willDelMemoHash.current = null; 
               }
           );
     }
 
     useEffect(
         ()=>{
+            //firstloading
             if(renderCount.current === false){
                 getUserUid().then(
-                    (userUid)=>{
-                        setUserUid(userUid);
-                        getMemo(userUid);
+                    ()=>{
+                        getMemo();
                     }
                 );
                 renderCount.current= true;
             }
-        },[]
-    )
-
-    useEffect(
-        ()=>{
             if(addMemoState === 1 || delMemoState===1){
-                getMemo(userUid);
+                getMemo();
             }
-        },[addMemoState, delMemoState]
+        }
     )
 
     if(memoItems==null){
@@ -213,13 +203,29 @@ const MemoComponenet = (props)=>{
                             <section className="modal-card-body">你確定要刪除這一篇日記嗎？</section>
                             <footer className="modal-card-foot">
                                 <button className="button is-danger" onClick={delMemo}>刪除吧！</button>
-                                <button className="button" onClick={()=>{setDelMemoState(-1); setWillDelMemoHash(null);}}>我在想想......</button>
+                                <button className="button" onClick={()=>{setDelMemoState(-1); willDelMemoHash.current = null;}}>我在想想......</button>
                             </footer>
                         </div>
                     </div>
                 )
-                    :
-                    ("")
+                    :("")
+                }
+                                {
+                    (addMemoState===4) ? 
+                    (
+                    <div className="msgBox">
+                        <div className="modal-card">
+                            <header className="modal-card-head has-background-warning">
+                                <p className="modal-card-title has-text-white">歐歐！</p>
+                            </header>
+                            <section className="modal-card-body">你沒有輸入任何日記內容哦～</section>
+                            <footer className="modal-card-foot">
+                                <button className="button is-warning" onClick={ ()=>setAddMemoState(0) }>好！</button>
+                            </footer>
+                        </div>
+                    </div>
+                )
+                    :("")
                 }
                 <div className="columns body-columns">
                     <div className="column is-half is-offset-one-quarter">
@@ -255,11 +261,11 @@ const MemoComponenet = (props)=>{
                                 ()=>{
                                     setPageEnd(pageEnd + 5);
                                     if(pageEnd >= memoItems.length){
-                                        setHasData(false);
+                                        hasData.current = false;
                                     }
                                 }
                             }
-                            hasMore={hasData}
+                            hasMore={hasData.current}
                             loader={
                             <div key="0">
                                 <br/><br/><br/><br/>
@@ -270,12 +276,8 @@ const MemoComponenet = (props)=>{
                         </InfiniteScroll>
                     </div>
                 </div>
-                {props.children}
             </div>
         )
-
     }
-
 }
-
 export default MemoComponenet;

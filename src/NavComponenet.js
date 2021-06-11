@@ -32,11 +32,7 @@ const NavComponent = (props)=>{
                     </a>
                 </div>  
             </nav>
-                {props.children}
         </div>
-        
     )
-
 }
-
 export default NavComponent;

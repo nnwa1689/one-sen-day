@@ -6,7 +6,6 @@ import 'firebase/auth';
 import FooterComponent from '../FooterComponent';
 
 const Memo = (props)=>{
-
     useEffect(
         ()=>{
 
@@ -19,14 +18,13 @@ const Memo = (props)=>{
               });
         }, []
     )
-
     return(
-        <NavComponent>
+        <>
+            <NavComponent></NavComponent>
             <MemoComponenet></MemoComponenet>
             <FooterComponent></FooterComponent>
-        </NavComponent>
+        </>
+
     )
-
 }
-
 export default Memo;
