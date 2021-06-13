@@ -186,9 +186,9 @@ const AccountSettingComponent = (props)=>{
 
                             <div class="content is-normal">
                             <img src={logo} width="325px" />
-                                <h4>讓生活變得更簡單</h4>
+                                <p className="title is-4">讓生活變得更簡單</p>
                                 <p>看厭了那些社交媒體了嗎？是時候該看看自己的心境了。</p>
-                                <h4>只要用一句話</h4>
+                                <p className="title is-4">只要用一句話</p>
                                 <p>就簡簡單單紀錄下你的心情.</p>
                                 <img src="https://www.notes-hz.com/uploadfile/fb51d1e6b98f4f88f8cf591927f94ecc.png" width="325px"/>
                                 <p>本專案是由 筆記長也NotesHazuya https://www.notes-hz.com/ 用 React / bulma 建立。</p>
