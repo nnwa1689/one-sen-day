@@ -127,6 +127,12 @@ const MemoComponenet = (props)=>{
                         getMemo();
                     }
                 );
+                /*
+                document.body.classList.add('is-dark');
+                document.body.querySelector('footer').classList.add('is-dark');
+                document.body.querySelector('nav').classList.add('is-dark');*/
+                //document.body.classList.remove('is-dark');
+
                 renderCount.current= true;
             }
             if(addMemoState === 1 || delMemoState===1){
@@ -163,7 +169,7 @@ const MemoComponenet = (props)=>{
                             <p>你的心情比較像是什麼顏色？</p>
                             <br></br>
                                 <div className="center">
-                                    <button disabled={ textDisabled } className="button is-rounded " onClick={setColorWhite}>白</button>
+                                    <button disabled={ textDisabled } className="button is-rounded " onClick={setColorWhite}>無</button>
                                     <button disabled={ textDisabled } className="button is-warning is-rounded" onClick={setColorYellow}>黃</button>
                                     <button disabled={ textDisabled } className="button is-link is-rounded" onClick={setColorBlue}>藍</button>
                                     <button disabled={ textDisabled } className="button is-success is-rounded" onClick={setColorGreen}>綠</button>
@@ -246,7 +252,7 @@ const MemoComponenet = (props)=>{
                                 <p>你的心情比較像是什麼顏色？</p>
                                     <div className="center">
                                     
-                                        <button className="button is-rounded" onClick={setColorWhite}>白</button>
+                                        <button className="button is-rounded" onClick={setColorWhite}>無</button>
                                         <button className="button is-warning is-rounded" onClick={setColorYellow}>黃</button>
                                         <button className="button is-link is-rounded" onClick={setColorBlue}>藍</button>
                                         <button className="button is-success is-rounded" onClick={setColorGreen}>綠</button>

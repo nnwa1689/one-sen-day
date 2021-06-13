@@ -4,9 +4,11 @@
   --shadowLight: #EFF5FE;
 }
 
+/*
 body {
   background: var(--background);
 }
+*/
 
 .hero-body {
   justify-content: center;

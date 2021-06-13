@@ -1,11 +1,43 @@
 /*! bulma.io v0.9.2 | MIT License | github.com/jgthms/bulma */
 /* Bulma Utilities */
 
+/*This version using var to change darkmode or lightmode*/
+/*By hazuya*/
+
 @font-face {
   font-family: 'NotoSansTC-Regular';
   font-style: normal;
   src: url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Regular.otf);
   unicode-range: U+4E00-9FFF;
+}
+
+:root{
+  --white:white;
+  --dark: #363636;
+  --black:black;
+  --primary:#00d1b2;
+  --gary:rgb(247, 247, 247);
+  --blackGray:#4a4a4a;
+}
+
+body.dark{
+  --backgroundColor:var(--black);
+  --contenColor:var(--dark);
+  --textColor:var(--white);
+  --hoverBackColor:var(--blackGray);
+  --hoverTextColor:var(--white);
+  --heroBackColor:var(--dark);
+  --heroTextColor:var(--white);
+}
+
+body.light{
+  --backgroundColor:var(--gary);
+  --contenColor:var(--white);
+  --textColor:var(--blackGray);
+  --hoverBackColor:var(--gary);
+  --hoverTextColor:var(--dark);
+  --heroBackColor:var(--primary);
+  --heroTextColor:var(--white);
 }
 
 .button, .input, .textarea, .select select, .file-cta,
@@ -351,11 +383,17 @@ pre {
 }
 
 body {
+  background-color: var(--backgroundColor);
   color: #4a4a4a;
   font-size: 1em;
   font-weight: 400;
   line-height: 1.5;
   font-family: "NotoSansTC-Regular";
+}
+
+body.is-dark{
+  color:#fff;
+  background-color: black;
 }
 
 a {
@@ -3154,7 +3192,7 @@ a.tag:hover {
 }
 
 .title {
-  color: #363636;
+  /*color: */
   font-size: 2rem;
   font-weight: 600;
   line-height: 1.125;
@@ -3202,14 +3240,14 @@ a.tag:hover {
 }
 
 .subtitle {
-  color: #4a4a4a;
+  /*color: #4a4a4a;*/
   font-size: 1.25rem;
   font-weight: 400;
   line-height: 1.25;
 }
 
 .subtitle strong {
-  color: #363636;
+  /*color: #363636;*/
   font-weight: 600;
 }
 
@@ -4226,7 +4264,7 @@ fieldset[disabled] .select select:hover {
 }
 
 .label {
-  color: #363636;
+  color: var(--textColor);
   display: block;
   font-size: 1rem;
   font-weight: 700;
@@ -4658,12 +4696,17 @@ fieldset[disabled] .select select:hover {
 }
 
 .card {
-  background-color: white;
+  background-color: var(--contenColor);
   border-radius: 0.25rem;
   box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1), 0 0px 0 1px rgba(10, 10, 10, 0.02);
-  color: #4a4a4a;
+  color: var(--textColor);
   max-width: 100%;
   position: relative;
+}
+
+.card.is-dark {
+  background-color: #363636;
+  color: #fff;
 }
 
 .card-header:first-child, .card-content:first-child, .card-footer:first-child {
@@ -5352,6 +5395,7 @@ button.dropdown-item.is-active {
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
   border-top: 1px solid #dbdbdb;
+  background-color: var(--contenColor);
 }
 
 .modal-card-foot .button:not(:last-child) {
@@ -5360,7 +5404,8 @@ button.dropdown-item.is-active {
 
 .modal-card-body {
   -webkit-overflow-scrolling: touch;
-  background-color: white;
+  background-color: var(--contenColor);
+  color: var(--textColor);
   flex-grow: 1;
   flex-shrink: 1;
   overflow: auto;
@@ -5368,36 +5413,35 @@ button.dropdown-item.is-active {
 }
 
 .navbar {
-  background-color: white;
   min-height: 3.25rem;
   position: relative;
   z-index: 30;
 }
 
 .navbar.is-white {
-  background-color: white;
-  color: #0a0a0a;
+  background-color: var(--contenColor);
+  color: var(--textColor);
 }
 
 .navbar.is-white .navbar-brand > .navbar-item,
 .navbar.is-white .navbar-brand .navbar-link {
-  color: #0a0a0a;
+  color: var(--textColor);
 }
 
 .navbar.is-white .navbar-brand > a.navbar-item:focus, .navbar.is-white .navbar-brand > a.navbar-item:hover, .navbar.is-white .navbar-brand > a.navbar-item.is-active,
 .navbar.is-white .navbar-brand .navbar-link:focus,
 .navbar.is-white .navbar-brand .navbar-link:hover,
 .navbar.is-white .navbar-brand .navbar-link.is-active {
-  background-color: #f2f2f2;
-  color: #0a0a0a;
+  background-color: var(--hoverBackColor);
+  color: var(--hoverTextColor);
 }
 
 .navbar.is-white .navbar-brand .navbar-link::after {
-  border-color: #0a0a0a;
+  border-color: var(--textColor);
 }
 
 .navbar.is-white .navbar-burger {
-  color: #0a0a0a;
+  color: var(--textColor);
 }
 
 @media screen and (min-width: 1024px) {
@@ -11135,8 +11179,8 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 }
 
 .hero.is-primary {
-  background-color: #00d1b2;
-  color: #fff;
+  background-color: var(--heroBackColor);
+  color: var(--heroTextColor);
 }
 
 .hero.is-primary a:not(.button):not(.dropdown-item):not(.tag):not(.pagination-link.is-current),
@@ -11145,7 +11189,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 }
 
 .hero.is-primary .title {
-  color: #fff;
+  color: var(--heroTextColor);
 }
 
 .hero.is-primary .subtitle {
@@ -11154,7 +11198,7 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 
 .hero.is-primary .subtitle a:not(.button),
 .hero.is-primary .subtitle strong {
-  color: #fff;
+  color: var(--heroTextColor);
 }
 
 @media screen and (max-width: 1023px) {
@@ -11708,7 +11752,13 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 }
 
 .footer {
-  background-color: #fafafa;
+  background-color: var(--contenColor);
+  color: var(--textColor);
   padding: 3rem 1.5rem 6rem;
 }
+
+.footer.a:hover {
+  color: var(--textColor);
+}
+
 /*# sourceMappingURL=bulma.css.map */

@@ -10,12 +10,12 @@ const RegisterFrom = (props)=>{
     const [account, setAccount] = useState(null);
     const [password, setPassword] = useState(null);
     const [regState, setRegState] = useState(0);
-    //0:init, 1:suc, 2:exsitErr, 3:PwSixErr, 4:Logining, 5:mailFomartErr, 6:otherErr
+    //0:init, 1:suc, 2:exsitErr, 3:PwSixErr, 4:Logining, 5:mailFomartErr, 6:otherErr, 7:NullError
     
     const doRegister = ()=>{
 
         if(account===null || account==="" || password===null || password===""){
-            alert("請輸入完整的資料");
+            setRegState(7);
         }else{
             setRegState(4);
             firebase
@@ -40,6 +40,7 @@ const RegisterFrom = (props)=>{
 
     useEffect(
         ()=>{
+            document.body.classList.add('light');
             firebase.auth().onAuthStateChanged((user)=> {
                 if(user) {
                   // 使用者已登入，redirect to Homepage
@@ -108,10 +109,10 @@ const RegisterFrom = (props)=>{
                     }
 
                     {
-                        (regState===1) ?
+                        (regState===7) ?
                         (
-                        <div className="notification is-success">
-                            哇，你的帳號已經建立好，馬上帶你去登入！
+                        <div className="notification is-danger">
+                            請輸入完整的資訊～
                         </div>
                         )
                         :

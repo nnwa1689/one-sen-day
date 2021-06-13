@@ -3,7 +3,8 @@ import firebase from 'firebase/app';
 import 'firebase/auth';
 import './Memo/memo.css';
 import './bulma.css';
-import logo from './one-sentence-daily.svg';
+import logo from './osdIcon.svg';
+import DarkMode from './DarkMode/DarkMode';
 
 const NavComponent = (props)=>{
 
@@ -29,6 +30,10 @@ const NavComponent = (props)=>{
                     
                     <a onClick={logout} className="navbar-item">
                         <i className="material-icons">logout</i>
+                    </a>
+
+                    <a className="navbar-item">
+                        <DarkMode/>
                     </a>
                 </div>  
             </nav>

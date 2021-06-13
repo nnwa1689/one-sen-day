@@ -10,14 +10,14 @@ const LoginForm = (props)=>{
     const [account, setAccount] = useState(null);
     const [password, setPassword] = useState(null);
     const [loginState, setLoginState] = useState(0);
-    //0:init, 1:suc, 2:pwErr, 3:emailFormattErr, 4:Logining 5:otherErr
+    //0:init, 1:suc, 2:pwErr, 3:emailFormattErr, 4:Logining  5:otherErr 6:NullError  
     const [btnDis, setBtnDis] = useState(false);
 
     //判斷使用者是否登入（或曾經登入）
     //交由 memo  去和 firebase 驗證
     useEffect(
         ()=>{
-            
+            document.body.classList.add('light');
             firebase.auth().onAuthStateChanged((user)=> {
                 if(user) {
                   // 使用者已登入，redirect to Homepage
@@ -31,7 +31,7 @@ const LoginForm = (props)=>{
     const doLogin= ()=>{
 
         if(account==null || account=="" || password==null || password==""){
-            alert('請輸入帳號密碼')
+            setLoginState(6);
         }else{
             setBtnDis(true);
             setLoginState(4);
@@ -80,15 +80,25 @@ const LoginForm = (props)=>{
                         :
                         ("")
                     }
+
+                    { loginState===6 ? 
+                        (
+                            <div className="notification is-danger">
+                                請輸入完整的資訊
+                            </div>
+                        )
+                        :
+                        ("")
+                    }
                 <form>
                     <div className="field">
                     <div className="control">
-                        <input disabled={btnDis} className="input is-medium is-rounded" type="text" placeholder="帳號（E-mail）" autoComplete="username" onChange={(e)=>{setAccount(e.target.value)}} />
+                        <input disabled={btnDis} className="input is-medium" type="text" placeholder="帳號（E-mail）" autoComplete="username" onChange={(e)=>{setAccount(e.target.value)}} />
                     </div>
                     </div>
                     <div className="field">
                     <div className="control">
-                        <input disabled={btnDis} className="input is-medium is-rounded" type="password" placeholder="密碼" autoComplete="current-password" onChange={(e)=>{setPassword(e.target.value)}} />
+                        <input disabled={btnDis} className="input is-medium" type="password" placeholder="密碼" autoComplete="current-password" onChange={(e)=>{setPassword(e.target.value)}} />
                     </div>
                     </div>
                     <br />
@@ -98,7 +108,7 @@ const LoginForm = (props)=>{
                         ) 
                         : 
                         (
-                            <button disabled={btnDis} className="button is-block is-fullwidth is-primary is-medium is-rounded" onClick={doLogin}>登入</button>
+                            <button disabled={btnDis} className="button is-block is-fullwidth is-primary is-medium" onClick={doLogin}>登入</button>
                         ) 
                     }        
                 </form>
