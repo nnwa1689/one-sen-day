@@ -24,3 +24,5 @@ yarn-error.log*
 
 src/FireBaseConfig.js
 src/FireBaseConfig-dev.js
+
+/fonts

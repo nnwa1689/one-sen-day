@@ -7,8 +7,15 @@
 @font-face {
   font-family: 'NotoSansTC-Regular';
   font-style: normal;
-  src: url(//fonts.gstatic.com/ea/notosanstc/v1/NotoSansTC-Regular.otf);
+  src: url(./fonts/NotoSansTC-Regular.otf);
   unicode-range: U+4E00-9FFF;
+}
+
+@font-face {
+  font-family: 'NotoSansTC-Regular';
+  font-style: normal;
+  src: url(./fonts/Lexend-Regular.ttf);
+  unicode-range: U+00-024F;
 }
 
 :root{
@@ -372,7 +379,7 @@ input,
 optgroup,
 select,
 textarea {
-  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-family: "NotoSansTC-Regular";
 }
 
 code,
@@ -389,11 +396,7 @@ body {
   font-weight: 400;
   line-height: 1.5;
   font-family: "NotoSansTC-Regular";
-}
-
-body.is-dark{
-  color:#fff;
-  background-color: black;
+  width: 100%;
 }
 
 a {
@@ -8269,8 +8272,6 @@ label.panel-block:hover {
 }
 
 .columns {
-  margin-left: -0.75rem;
-  margin-right: -0.75rem;
   margin-top: -0.75rem;
 }
 
