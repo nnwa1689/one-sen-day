@@ -280,6 +280,7 @@ const MemoComponenet = (props)=>{
                         >
                             {memoItems.slice(0, pageEnd)}
                         </InfiniteScroll>
+                        <div id="shareContainer"></div>
                     </div>
                 </div>
             </div>
