@@ -20,7 +20,7 @@ const MemoComponenet = (props)=>{
     const [addMemoState, setAddMemoState] = useState(0);
     // 0:init 1:suc 2: loading 3:error 4:isNone
     const [delMemoState, setDelMemoState] = useState(-1);
-    // 0:willDel 1:suc 2:delLoading 3: error
+    // -1:init, 0:willDel 1:suc 2:delLoading 3: error
 
     const getUserUid= ()=>{
         return new Promise((resolve, reject)=>{
@@ -137,6 +137,8 @@ const MemoComponenet = (props)=>{
             }
             if(addMemoState === 1 || delMemoState===1){
                 getMemo();
+                setAddMemoState(0);
+                setDelMemoState(-1);
             }
         }
     )
