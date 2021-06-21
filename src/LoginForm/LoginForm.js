@@ -104,11 +104,11 @@ const LoginForm = (props)=>{
                     <br />
                     { loginState===4 ? 
                         (
-                            <progress className="progress is-small is-primary" max="100"></progress>
+                            <progress className="progress is-small is-success" max="100"></progress>
                         ) 
                         : 
                         (
-                            <button disabled={btnDis} className="button is-block is-fullwidth is-primary is-medium" onClick={doLogin}>登入</button>
+                            <button type="button" disabled={btnDis} className="button is-block is-outlined is-fullwidth is-primary is-medium" onClick={doLogin}>登入</button>
                         ) 
                     }        
                 </form>

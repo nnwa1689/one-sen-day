@@ -1,4 +1,4 @@
-import React, { Componen, useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 
 const DarkMode = ()=>{
     let clickedClass = "button is-dark";
@@ -7,13 +7,9 @@ const DarkMode = ()=>{
     const lightTheme = "light";
     const darkTheme = "dark";
     const [theme, setTheme] = useState(localStorage.getItem("theme"));
-    const firstloading = useRef(true);
-
 
     body.classList.remove('light');
     body.classList.remove('dark');
-  
-
   
     if (theme === lightTheme || theme === darkTheme) {
       body.classList.add(theme);

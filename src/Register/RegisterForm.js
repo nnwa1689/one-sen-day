@@ -52,127 +52,121 @@ const RegisterFrom = (props)=>{
 
 
     return(
-        <section className="container">
+        <section className="hero is-fullheight">
             <div className="columns is-multiline">
                 <div className="column is-8 is-offset-2 register">
-                <div className="columns">
-                    <div className="column left">
-                    <h1 className="title is-1"><img src={logo} width="325px" /></h1>
-                    <h2 className="subtitle colored is-4">讓生活變得更簡單.</h2>
-                    <p>厭倦了繁雜的社交媒體嗎？想想你多久沒寫過日記了？是時候該讓自己的生活簡單一點，過上減法生活，每日都用一句話來描述今天的生活。</p>
-                    </div>
-                    <div className="column right has-text-centered">
-                    <h1 className="title is-4">今天就開始簡單生活</h1>
-                    <p className="description">沒錯，只要簡單資訊就能馬上開始</p>
-                    {
-                        (regState===2) ?
-                        (
-                        <div className="notification is-danger">
-                            恩...這email已經被註冊
+                    <div className="columns">
+                        <div className="column left">
+                        <h1 className="title is-1"><img src={logo} width="325px" /></h1>
+                        <h2 className="subtitle colored is-4">暫時遠離繁雜社群媒體</h2>
+                        <p>厭倦了繁雜的社交媒體？<br/>多久沒寫過日記了？</p>
+                        <h2 className="subtitle colored is-4">靜下心，檢視自己的心境</h2>
+                        <p>沒有壓力，可以毫無顧忌的用一句話來描述今天的生活。</p>
                         </div>
-                        )
-                        :
-                        ("")
-                    }
-
-                    {
-                        (regState===3) ?
-                        (
-                        <div className="notification is-danger">
-                            密碼要大於 6 位數OwO
-                        </div>
-                        )
-                        :
-                        ("")
-                    }
-
-                    {
-                        (regState===5) ?
-                        (
-                        <div className="notification is-danger">
-                            恩...這看起來不像Email
-                        </div>
-                        )
-                        :
-                        ("")
-                    }
-
-                    {
-                        (regState===6) ?
-                        (
-                        <div className="notification is-danger">
-                            發生了一些技術性問題，我們已經派出最有效率的長也去修正了，請稍後再來！
-                        </div>
-                        )
-                        :
-                        ("")
-                    }
-
-                    {
-                        (regState===7) ?
-                        (
-                        <div className="notification is-danger">
-                            請輸入完整的資訊～
-                        </div>
-                        )
-                        :
-                        ("")
-                    }
-
-                    <form>
-                        <div className="field">
-                        <div className="control">
-                            <input className="input is-medium" type="text" placeholder="帳號（E-mail）" disabled={((regState===4 || regState===1)? true:false)} onChange={(e)=>{setAccount(e.target.value)}}/>
-                        </div>
-                        </div>
-
-                        <div className="field">
-                        <div className="control">
-                            <input className="input is-medium" type="password" placeholder="密碼" disabled={((regState===4 || regState===1)? true:false)} onChange={(e)=>{setPassword(e.target.value)}}/>
-                        </div>
-                        </div>
+                        <div className="column right has-text-centered">
+                        <h1 className="title is-4"><span style={ {color: "#00A752"} }>今天</span>就開始，真的很簡單</h1>
+                        <p className="description">只要簡單資訊就能馬上開始</p>
+                        {
+                            (regState===2) ?
+                            (
+                            <div className="notification is-danger">
+                                恩...這email已經被註冊
+                            </div>
+                            )
+                            :
+                            ("")
+                        }
 
                         {
-                            (regState===4 || regState===1) ?
-                            (<progress className="progress is-small is-primary" max="100"></progress>)
+                            (regState===3) ?
+                            (
+                            <div className="notification is-danger">
+                                密碼要大於 6 位數OwO
+                            </div>
+                            )
                             :
-                            (<button className="button is-block is-primary is-fullwidth is-medium" onClick={doRegister}>立即開始！</button>)
+                            ("")
                         }
-                        <br />
-                        <small><em>我們絕對不會發送擾人的通知與電子郵件</em></small>
-                    </form>
+
+                        {
+                            (regState===5) ?
+                            (
+                            <div className="notification is-danger">
+                                恩...這看起來不像Email
+                            </div>
+                            )
+                            :
+                            ("")
+                        }
+
+                        {
+                            (regState===6) ?
+                            (
+                            <div className="notification is-danger">
+                                發生了一些技術性問題，我們已經派出最有效率的長也去修正了，請稍後再來！
+                            </div>
+                            )
+                            :
+                            ("")
+                        }
+
+                        {
+                            (regState===7) ?
+                            (
+                            <div className="notification is-danger">
+                                請輸入完整的資訊～
+                            </div>
+                            )
+                            :
+                            ("")
+                        }
+
+                        <form>
+                            <div className="field">
+                            <div className="control">
+                                <input className="input is-medium" type="text" placeholder="帳號（E-mail）" disabled={((regState===4 || regState===1)? true:false)} onChange={(e)=>{setAccount(e.target.value)}}/>
+                            </div>
+                            </div>
+
+                            <div className="field">
+                            <div className="control">
+                                <input className="input is-medium" type="password" placeholder="密碼" disabled={((regState===4 || regState===1)? true:false)} onChange={(e)=>{setPassword(e.target.value)}}/>
+                            </div>
+                            </div>
+
+                            {
+                                (regState===4 || regState===1) ?
+                                (<progress className="progress is-small is-primary" max="100"></progress>)
+                                :
+                                (<button type="button" className="button is-block is-outlined is-success is-fullwidth is-medium" onClick={doRegister}>立即開始！</button>)
+                            }
+                            <br />
+                            <small>我們絕對不會發送擾人的通知與電子郵件</small>
+                            <br/>
+                            <small>請同意我們的〈<a href="https://www.notes-hz.com/page/privacypolicy" target="blank">隱私政策</a>〉</small>
+                        </form>
+                        </div>
                     </div>
-                </div>
                 </div>
 
                 <div className="column is-8 is-offset-2">
-                <br/>
-                <nav className="level">
-                    <div className="level-left">
-                    <div className="level-item">
-                        <span className="icon">
-                        <i className="fab fa-twitter"></i>
-                        </span> &emsp;
-                        <span className="icon">
-                        <i className="fab fa-facebook"></i>
-                        </span> &emsp;
-                        <span className="icon">
-                        <i className="fab fa-instagram"></i>
-                        </span> &emsp;
-                        <span className="icon">
-                        <i className="fab fa-github"></i>
-                        </span> &emsp;
-                        <span className="icon">
-                        <i className="fas fa-envelope"></i>
-                        </span>
-                    </div>
-                    </div>
-                    <div className="level-right">
-                    <small className="level-item">
-                        &copy; 筆記長也 notesHazuya.
-                    </small>
-                    </div>
-                </nav>
+                    <br/>
+                    <nav className="level">
+                        <div className="level-left">
+                            <a class="navbar-item" href="https://lab.notes-hz.com/">
+                                <h1 style={ {fontSize: "24px", color: "#028ff3", fontWeight: "bold"} }>Lab</h1>
+                                <h1 style={ {fontSize: "24px", color: "#FD3E49", fontWeight: "bold"} }>H</h1>
+                                <h1 style={ {fontSize: "24px", color: "#FF8738", fontWeight: "bold"} }>a</h1>
+                                <h1 style={ {fontSize: "24px", color: "#FFA900", fontWeight: "bold"} }>z</h1>
+                                <h1 style={ {fontSize: "24px", color: "#00A752", fontWeight: "bold"} }>u</h1>
+                                <h1 style={ {fontSize: "24px", color: "#007BEE", fontWeight: "bold"} }>y</h1>
+                                <h1 style={ {fontSize: "24px", color: "#9B49DF", fontWeight: "bold"} }>a</h1>
+                            </a>
+                        </div>
+                        <div className="level-right">
+                        <small className="level-item">&copy; 筆記長也 notesHazuya</small>
+                        </div>
+                    </nav>
                 </div>
             </div>
         </section>
