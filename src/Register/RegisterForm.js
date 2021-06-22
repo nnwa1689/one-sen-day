@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import '../bulma.css';
@@ -6,17 +7,16 @@ import './register.css';
 import logo from '../one-sentence-daily.svg';
 
 const RegisterFrom = (props)=>{
-
+    const history = useHistory();
     const [account, setAccount] = useState(null);
     const [password, setPassword] = useState(null);
     const [regState, setRegState] = useState(0);
     //0:init, 1:suc, 2:exsitErr, 3:PwSixErr, 4:Logining, 5:mailFomartErr, 6:otherErr, 7:NullError
     
     const doRegister = ()=>{
-
         if(account===null || account==="" || password===null || password===""){
             setRegState(7);
-        }else{
+        } else {
             setRegState(4);
             firebase
             .auth()
@@ -26,11 +26,11 @@ const RegisterFrom = (props)=>{
             }).catch(function(error) {
                 if(error.code==="auth/invalid-email"){
                     setRegState(5);
-                }else if(error.code==="auth/weak-password"){
+                } else if (error.code==="auth/weak-password"){
                     setRegState(3);
-                }else if(error.code==="auth/email-already-in-use"){
+                } else if (error.code==="auth/email-already-in-use"){
                     setRegState(2);
-                }else{
+                } else {
                     setRegState(6);
                 }
             });
@@ -44,13 +44,11 @@ const RegisterFrom = (props)=>{
             firebase.auth().onAuthStateChanged((user)=> {
                 if(user) {
                   // 使用者已登入，redirect to Homepage
-                  window.location.href = '#/';
+                  history.push('/')
                 }
               });
-        },[]
+        }
     )
-
-
     return(
         <section className="hero is-fullheight">
             <div className="columns is-multiline">
@@ -172,5 +170,4 @@ const RegisterFrom = (props)=>{
         </section>
     )
 }
-
 export default RegisterFrom;

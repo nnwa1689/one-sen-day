@@ -1,22 +1,21 @@
 import React,{ useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import MemoComponenet from './MemoComponenet';
-import NavComponent from '../NavComponenet';
+import NavComponent from '../NavBar/NavComponenet';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import FooterComponent from '../FooterComponent';
+import FooterComponent from '../NavBar/FooterComponent';
 
 const Memo = (props)=>{
+    const history = useHistory();
     useEffect(
         ()=>{
-
             firebase.auth().onAuthStateChanged((user)=>{
-                if(user) {
-                  // 使用者已登入，可以取得資料
-                } else {
-                    window.location.href = '#/login';
+                if(!user) {
+                    history.push('/login');
                 }
               });
-        }, []
+        }
     )
     return(
         <>
@@ -24,7 +23,6 @@ const Memo = (props)=>{
             <MemoComponenet></MemoComponenet>
             <FooterComponent></FooterComponent>
         </>
-
     )
 }
 export default Memo;

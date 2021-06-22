@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import '../bulma.css';
@@ -12,6 +13,7 @@ const LoginForm = (props)=>{
     const [loginState, setLoginState] = useState(0);
     //0:init, 1:suc, 2:pwErr, 3:emailFormattErr, 4:Logining  5:otherErr 6:NullError  
     const [btnDis, setBtnDis] = useState(false);
+    const history = useHistory();
 
     //判斷使用者是否登入（或曾經登入）
     //交由 memo  去和 firebase 驗證
@@ -21,18 +23,17 @@ const LoginForm = (props)=>{
             firebase.auth().onAuthStateChanged((user)=> {
                 if(user) {
                   // 使用者已登入，redirect to Homepage
-                  window.location.href = '#/';
+                  history.push('/')
                 }
               });
 
-        },[]
+        }
     )
 
     const doLogin= ()=>{
-
-        if(account==null || account=="" || password==null || password==""){
+        if(account === null || account === "" || password === null || password === ""){
             setLoginState(6);
-        }else{
+        } else {
             setBtnDis(true);
             setLoginState(4);
             firebase.auth()
@@ -56,7 +57,6 @@ const LoginForm = (props)=>{
     }
 
     return(
-
         <section className="hero is-fullheight">
             <div className="hero-body has-text-centered">
                 <div className="login">
@@ -108,7 +108,7 @@ const LoginForm = (props)=>{
                         ) 
                         : 
                         (
-                            <button type="button" disabled={btnDis} className="button is-block is-outlined is-fullwidth is-primary is-medium" onClick={doLogin}>登入</button>
+                            <button type="button" disabled={btnDis} className="button is-block is-outlined is-fullwidth is-success is-medium" onClick={doLogin}>登入</button>
                         ) 
                     }        
                 </form>
@@ -121,17 +121,13 @@ const LoginForm = (props)=>{
                         </div>
                     </div>
                         <div className="level-item has-text-centered">
-                            
-                            <a href="#/register">建立帳號</a>
+                            <Link to="/register">建立帳號</Link>
                         </div>
                     </div>
                 </nav>
                 </div>
             </div>
         </section>
-    
     )
-
 }
-
 export default LoginForm;

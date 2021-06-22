@@ -26,11 +26,11 @@ const MemoComponenet = (props)=>{
         return new Promise((resolve, reject)=>{
             firebase.auth().onAuthStateChanged((user)=>{
             if(user) {
-              // 使用者已登入，可以取得資料
-              //setUserUid(user.uid);
-              userUid.current = user.uid;
-              resolve(user.uid);
-            }else{
+                // 使用者已登入，可以取得資料
+                //setUserUid(user.uid);
+                userUid.current = user.uid;
+                resolve(user.uid);
+            } else {
                 reject("SomeError");
             }
           });
@@ -127,12 +127,6 @@ const MemoComponenet = (props)=>{
                         getMemo();
                     }
                 );
-                /*
-                document.body.classList.add('is-dark');
-                document.body.querySelector('footer').classList.add('is-dark');
-                document.body.querySelector('nav').classList.add('is-dark');*/
-                //document.body.classList.remove('is-dark');
-
                 renderCount.current= true;
             }
             if(addMemoState === 1 || delMemoState===1){
@@ -150,54 +144,7 @@ const MemoComponenet = (props)=>{
                 <progress className="progress is-small is-primary" max="100"></progress>
             </div>            
         )
-    }else if(memoItems===""){
-        return(
-            <div className="columns body-columns">
-                <div className="column is-half is-offset-one-quarter">
-                    <section className="hero is-primary">
-                        <div className="hero-body">
-                        <p className="title">"用簡單一句話描述心情"</p>
-                        <div className="container">
-                                    <div className="content">
-                                    <div className="control">
-                                        <div className="field">
-                                            <div className="control">
-                                                <textarea disabled={ textDisabled } rows="1" className="textarea is-medium has-fixed-size" placeholder="我覺得......" onChange={(e)=>(setMemoText(e.target.value))}></textarea>
-                                            </div>
-                                            </div>
-                                    </div>
-
-                            </div>
-                            <p>你的心情比較像是什麼顏色？</p>
-                            <br></br>
-                                <div className="center">
-                                    <button disabled={ textDisabled } className="button is-rounded " onClick={setColorWhite}>無</button>
-                                    <button disabled={ textDisabled } className="button is-warning is-rounded" onClick={setColorYellow}>黃</button>
-                                    <button disabled={ textDisabled } className="button is-link is-rounded" onClick={setColorBlue}>藍</button>
-                                    <button disabled={ textDisabled } className="button is-success is-rounded" onClick={setColorGreen}>綠</button>
-                                    <button disabled={ textDisabled } className="button is-danger is-rounded" onClick={setColorRed}>紅</button>
-                                </div>
-                        </div>
-                        </div>
-                    </section>
-                    <section className="hero is-success is-halfheight">
-                        <div className="hero-body">
-                            <div className="">
-                            <p className="title">
-                                嗨
-                            </p>
-                            <p className="subtitle">
-                                快發表你的第一篇一句話日記吧！
-                            </p>
-                            </div>
-                        </div>
-                    </section>
-                    {props.children}
-                </div>
-            </div>
-        )
-
-    }else{
+    } else {
         return(
             <div>
                 {
@@ -218,7 +165,7 @@ const MemoComponenet = (props)=>{
                 )
                     :("")
                 }
-                                {
+                {
                     (addMemoState===4) ? 
                     (
                     <div className="msgBox">
@@ -263,25 +210,44 @@ const MemoComponenet = (props)=>{
                             </div>
                             </div>
                         </section>
-                        <InfiniteScroll
-                            pageStart={0}
-                            loadMore={
-                                ()=>{
-                                    setPageEnd(pageEnd + 5);
-                                    if(pageEnd >= memoItems.length){
-                                        hasData.current = false;
+                        { (memoItems === "") ? 
+                        (
+                        <section className="hero is-success is-halfheight">
+                            <div className="hero-body">
+                                <div className="">
+                                <p className="title">
+                                    嗨
+                                </p>
+                                <p className="subtitle">
+                                    快發表你的第一篇一句話日記吧！
+                                </p>
+                                </div>
+                            </div>
+                        </section>
+                        ) 
+                        : 
+                        (
+                            <InfiniteScroll
+                                pageStart={0}
+                                loadMore={
+                                    ()=>{
+                                        setPageEnd(pageEnd + 5);
+                                        if(pageEnd >= memoItems.length){
+                                            hasData.current = false;
+                                        }
                                     }
                                 }
-                            }
-                            hasMore={hasData.current}
-                            loader={
-                            <div key="0">
-                                <br/><br/><br/><br/>
-                                <progress className="progress is-small is-primary" max="100"></progress>
-                            </div> }
-                        >
-                            {memoItems.slice(0, pageEnd)}
-                        </InfiniteScroll>
+                                hasMore={hasData.current}
+                                loader={
+                                <div key="0">
+                                    <br/><br/><br/><br/>
+                                    <progress className="progress is-small is-primary" max="100"></progress>
+                                </div> }
+                            >
+                                {memoItems.slice(0, pageEnd)}
+                            </InfiniteScroll>
+                        )
+                        }
                         <div id="shareContainer"></div>
                     </div>
                 </div>

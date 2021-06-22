@@ -1,11 +1,13 @@
-import React,{ useState, useEffect, useRef } from 'react';
-import NavComponent from '../NavComponenet';
+import React,{ useEffect, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
+import NavComponent from '../NavBar/NavComponenet';
 import firebase from 'firebase/app';
 import 'firebase/auth';
-import FooterComponent from '../FooterComponent';
+import FooterComponent from '../NavBar/FooterComponent';
 import AccountSettingComponent from '../AccountSetting/AccountSettingComponent.js';
 
 const AccountSetting = (props)=>{
+    const history = useHistory();
     const firstLoading = useRef(true);
     useEffect(
         ()=>{
@@ -15,7 +17,7 @@ const AccountSetting = (props)=>{
                       // 使用者已登入，可以取得資料
                       //pass
                     } else {
-                        window.location.href = '#/login';
+                        history.push('/login')
                     }
                   });    
             }
