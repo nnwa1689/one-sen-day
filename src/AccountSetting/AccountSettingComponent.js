@@ -1,7 +1,8 @@
-import React,{ useState, useEffect } from 'react';
+import React,{ useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/database';
 import '../bulma.css';
 import '../LoginForm/login.css';
 import '../Register/register.css';
@@ -9,17 +10,20 @@ import logo from '../one-sentence-daily.svg';
 
 const AccountSettingComponent = (props)=>{
     const history = useHistory();
+    const userUid = useRef("");
+    const firstRender = useRef(true);
     const [oldPw, setOldPw] = useState("");
     const [newPw, setNewPw] = useState("");
     const [newTwicePw, setTwiceNewPw] = useState("");
     const [updatePwState, setUpdatePwState] = useState(0);
+    const [postCount, setPostCount] = useState(0);
     const [userMail, setUserMail] =useState("");
     //0:init 1:suc 2:updateing 3:oldPwErr 4:TwicePwErr 5:Nullerr 6:minMustBeLargeSixErr
 
     const updatePassword = ()=>{
         setUpdatePwState(2);
         //驗證二次密碼
-        if(newPw ==="" || newTwicePw==="" || oldPw===""){
+        if (newPw ==="" || newTwicePw==="" || oldPw==="") {
             setUpdatePwState(5);
             return;
         } else if ( newPw!==newTwicePw ){
@@ -27,16 +31,15 @@ const AccountSettingComponent = (props)=>{
             return;
         }
         firebase.auth().onAuthStateChanged((user)=>{
-            if(user) {
+            if (user) {
               // 驗證舊密碼
               var credential = firebase.auth.EmailAuthProvider.credential(user.email, oldPw);
               user.reauthenticateWithCredential(credential).then(()=> {
                 user.updatePassword(newPw).then(()=>{
                     // 修改密碼完成
                     setUpdatePwState(1);
-                    logout();
                   }).catch((error)=> {
-                    if(error.code==="auth/weak-password"){
+                    if (error.code==="auth/weak-password") {
                         setUpdatePwState(6);
                     } else {
                         setUpdatePwState(3);
@@ -51,22 +54,27 @@ const AccountSettingComponent = (props)=>{
           });
     }
 
-    const logout = ()=>{
-        firebase.auth().signOut()
-        .then(()=> {
-            history.push('/login');
-        }).catch((error)=>{
-            //
-        });
+    const countUserPost = () => {
+        firebase.database().ref('/oneSenDay/' + userUid.current).once("value", e => {
+          }).then(
+            (e)=>{
+                setPostCount(Object.keys(e.val()).length);
+            }
+          )
     }
 
     useEffect(
         ()=>{
-            firebase.auth().onAuthStateChanged(function(user) {
-                if(user) {
-                    setUserMail(user.email);
-                }
-              });
+            if (firstRender.current === true) {
+                firebase.auth().onAuthStateChanged((user) => {
+                    if (user) {
+                        setUserMail(user.email);
+                        userUid.current = user.uid
+                        countUserPost();
+                    }
+                  });
+                firstRender.current = false;
+            }
         }
     )
     return(
@@ -76,7 +84,22 @@ const AccountSettingComponent = (props)=>{
                     <div className="header">
                         <div className="media">
                             <div className="media-content">
-                                <p>您好，{ userMail }，今天感覺還好嗎？</p>
+                                <div className="columns">
+                                    <div className="column is-half">
+                                        <article className="tile is-child notification is-primary">
+                                            <p className="title">嗨)^o^(</p>
+                                            <p className="subtitle">{ userMail }，感覺還好嗎？有遇到什麼問題或是趣事嗎？</p>
+                                        </article>
+                                    </div>
+                                    <div className="column">
+                                        <article className="tile is-child notification is-warning">
+                                            <p className="title">你已經......</p>
+                                            <p className="subtitle">發表了 { postCount } 篇日記了！
+                                                <br/>如果有需要，我們隨時為你敞開大門。
+                                            </p>
+                                        </article>
+                                    </div>
+                                </div>
                                 <br></br>
                                 <p className="subtitle is-4">帳號密碼設定</p>
 
@@ -137,7 +160,7 @@ const AccountSettingComponent = (props)=>{
                                 <div className="field-body">
                                     <div className="field">
                                     <p className="control">
-                                        <input id="new-password" disabled={ (updatePwState === 2|| updatePwState===1)? true:false } class="input" type="password" placeholder="******" value={newPw} onChange={ (e)=>(setNewPw(e.target.value))  }/>
+                                        <input id="new-password" disabled={ (updatePwState === 2|| updatePwState===1)? true:false } className="input" type="password" placeholder="******" value={newPw} onChange={ (e)=>(setNewPw(e.target.value))  }/>
                                     </p>
                                     </div>
                                 </div>
@@ -145,12 +168,12 @@ const AccountSettingComponent = (props)=>{
 
                                 <div className="field is-horizontal">
                                 <div className="field-label is-normal">
-                                    <label clclassNameass="label">再次確認密碼</label>
+                                    <label className="label">再次確認密碼</label>
                                 </div>
                                 <div className="field-body">
                                     <div className="field">
-                                    <p clclassNameass="control">
-                                        <input id="re-new-password" disabled={ (updatePwState === 2|| updatePwState===1)? true:false } class="input" type="password" value={newTwicePw} placeholder="******" onChange={ (e)=>(setTwiceNewPw(e.target.value)) }/>
+                                    <p className="control">
+                                        <input id="re-new-password" disabled={ (updatePwState === 2|| updatePwState===1)? true:false } className="input" type="password" value={newTwicePw} placeholder="******" onChange={ (e)=>(setTwiceNewPw(e.target.value)) }/>
                                     </p>
                                     </div>
                                 </div>
@@ -163,7 +186,7 @@ const AccountSettingComponent = (props)=>{
                                 <div className="field-body">
                                     <div className="field">
                                     <p className="control">
-                                        <input  id="old-password" disabled={ (updatePwState === 2|| updatePwState===1)? true:false } class="input" type="password" value={ oldPw } placeholder="******" onChange={ (e)=>(setOldPw(e.target.value)) }/>
+                                        <input  id="old-password" disabled={ (updatePwState === 2|| updatePwState===1)? true:false } className="input" type="password" value={ oldPw } placeholder="******" onChange={ (e)=>(setOldPw(e.target.value)) }/>
                                     </p>
                                     </div>
                                 </div>
@@ -174,7 +197,7 @@ const AccountSettingComponent = (props)=>{
 
                                 )
                                 :
-                                (  <button disabled={ (updatePwState === 2|| updatePwState===1)? true:false } class="button is-success is-outlined is-medium is-fullwidth" onClick={updatePassword}>確定</button>)
+                                (  <button disabled={ (updatePwState === 2|| updatePwState===1)? true:false } className="button is-success is-outlined is-medium is-fullwidth" onClick={updatePassword}>確定</button>)
                                 }
 
                                 <hr/>

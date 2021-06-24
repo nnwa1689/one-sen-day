@@ -152,13 +152,13 @@ const RegisterFrom = (props)=>{
                     <nav className="level">
                         <div className="level-left">
                             <a class="navbar-item" href="https://lab.notes-hz.com/">
-                                <h1 style={ {fontSize: "24px", color: "#028ff3", fontWeight: "bold"} }>Lab</h1>
-                                <h1 style={ {fontSize: "24px", color: "#FD3E49", fontWeight: "bold"} }>H</h1>
-                                <h1 style={ {fontSize: "24px", color: "#FF8738", fontWeight: "bold"} }>a</h1>
-                                <h1 style={ {fontSize: "24px", color: "#FFA900", fontWeight: "bold"} }>z</h1>
-                                <h1 style={ {fontSize: "24px", color: "#00A752", fontWeight: "bold"} }>u</h1>
-                                <h1 style={ {fontSize: "24px", color: "#007BEE", fontWeight: "bold"} }>y</h1>
-                                <h1 style={ {fontSize: "24px", color: "#9B49DF", fontWeight: "bold"} }>a</h1>
+                                <span style={ {fontSize: "24px", color: "#028ff3", fontWeight: "bold"} }>Lab</span>
+                                <span style={ {fontSize: "24px", color: "#FD3E49", fontWeight: "bold"} }>H</span>
+                                <span style={ {fontSize: "24px", color: "#FF8738", fontWeight: "bold"} }>a</span>
+                                <span style={ {fontSize: "24px", color: "#FFA900", fontWeight: "bold"} }>z</span>
+                                <span style={ {fontSize: "24px", color: "#00A752", fontWeight: "bold"} }>u</span>
+                                <span style={ {fontSize: "24px", color: "#007BEE", fontWeight: "bold"} }>y</span>
+                                <span style={ {fontSize: "24px", color: "#9B49DF", fontWeight: "bold"} }>a</span>
                             </a>
                         </div>
                         <div className="level-right">

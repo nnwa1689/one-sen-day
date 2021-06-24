@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-const footerComponent = (props)=>{
+const FooterComponent = (props)=>{
+    useEffect(
+        ()=>{
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
+        }
+    )
     return(
     <footer className="footer">
         <div className="container is-fluid">
@@ -17,10 +22,16 @@ const footerComponent = (props)=>{
                     </a><br/>
                     <a href="https://www.notes-hz.com/">筆記長也NotesHazuya</a>
                 </p>
-            </div>
+                {/*Google Ads*/}
+                <ins className="adsbygoogle"
+                style={ {display: "block"}}
+                data-ad-format="fluid"
+                data-ad-layout-key="-gw-3+1f-3d+2z"
+                data-ad-client="ca-pub-3826338280068687"
+                data-ad-slot="2053696274"/>
+                </div>
         </div>
     </footer>
     )
 }
-
-export default footerComponent;
+export default FooterComponent;

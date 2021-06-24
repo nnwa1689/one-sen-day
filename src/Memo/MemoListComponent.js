@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as htmlToImage from 'html-to-image';
 import { toPng, toJpeg, toBlob, toPixelData, toSvg } from 'html-to-image';
 import '../bulma.css';
@@ -23,15 +23,36 @@ const MemoListComponent = (props)=>{
         });
     }
 
-    return(
+    useEffect(
+        ()=>{
+            if (props.ads){
+                //init googleAds
+                (window.adsbygoogle = window.adsbygoogle || []).push({});
+            }
 
+        }
+    )
+
+    return(
         <div>
             <div className="card">
                 <div className="header">
-                    <div className="media">
-                        <div className="media-content">
-                            <p className="title is-4"><time dateTime={props.memoDate}>{props.memoDate}</time></p>
-                            <p className="subtitle is-6">你覺得此時此刻......</p>
+                    <div className="columns">
+                        <div className="column is-8">
+                            <p className="title is-5">
+                                <i className="material-icons">schedule</i>
+                                <time dateTime={props.memoDate}>{props.memoDate}</time>
+                            </p>
+                        </div>
+                        <div className="column">
+                            <p className="subtitle is-6">  
+                            { (props.weather !== undefined) ? 
+                                <> 
+                                    <img src={ "https://openweathermap.org/img/wn/" +  props.weatherIcon + "@2x.png" } width="28" height="28" />
+                                    { props.temp } °C，{ props.weather} 
+                                </>
+                                :""
+                            }</p>
                         </div>
                     </div>
                 </div>
@@ -45,18 +66,17 @@ const MemoListComponent = (props)=>{
                         </div>
                     </section>
                 </div>
-
                 <footer className="card-footer">
                     <a className="card-footer-item">
-                    <button value={props.memoHash} className="button is-link is-outlined" onClick={shareMemo}>
+                        <button value={props.memoHash} className="button is-link is-outlined is-fullwidth" onClick={shareMemo}>
                             <span className="icon is-small">
                                 <i className="material-icons">file_download</i>
-                                </span>
-                            </button>
+                            </span>
+                        </button>
                     </a>
                     <a className="card-footer-item"></a>
                     <a className="card-footer-item">                            
-                        <button value={props.memoHash} className="button is-danger is-outlined" onClick={props.doDelMemo}>
+                        <button value={props.memoHash} className="button is-danger is-outlined is-fullwidth" onClick={props.doDelMemo}>
                             <span className="icon is-small">
                                 <i className="material-icons">delete_forever</i>
                                 </span>
@@ -64,6 +84,16 @@ const MemoListComponent = (props)=>{
                     </a>
                 </footer>
             </div>
+            { props.ads ?
+            <div key={ props.key }>
+                <ins className="adsbygoogle"
+                style={ {display: "block"}}
+                data-ad-format="fluid"
+                data-ad-layout-key="-gw-3+1f-3d+2z"
+                data-ad-client="ca-pub-3826338280068687"
+                data-ad-slot="2053696274"/>
+            </div> 
+            :""}
         </div>
     )
 }

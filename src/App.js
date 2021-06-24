@@ -12,6 +12,8 @@ import './Memo/memo.css';
 
 const App = ()=>{
 
+  var basename = "/";
+
   if(!firebase.apps.length){
     firebase.initializeApp(FireBaseConfig);  
   }
@@ -19,12 +21,13 @@ const App = ()=>{
   if(process.env.NODE_ENV !== "development"){
     const appCheck = firebase.appCheck();
     appCheck.activate('6Lfs9TQbAAAAANxrKWGaZgx71yy6PHZ26t5CGE4h');
+    basename = "/apps/one-sen-day/"
   }
 
   document.title = "一句話日記 - 從此愛上簡單生活";
   
   return(
-    <BrowserRouter basename="/apps/one-sen-day/">
+    <BrowserRouter basename={ basename }>
       <Switch>
         <Route exact path="/" component={Memo} />
         <Route path="/login" component={LoginForm} />
