@@ -1,9 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 const FooterComponent = (props)=>{
+    const firstRender = useRef(true);
     useEffect(
         ()=>{
-            (window.adsbygoogle = window.adsbygoogle || []).push({});
+            if (firstRender.current === true){
+                (window.adsbygoogle = window.adsbygoogle || []).push({});
+                firstRender.current = false;
+            }
         }
     )
     return(
