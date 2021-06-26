@@ -43,7 +43,7 @@ const MemoComponenet = (props)=>{
                         getWeather();
                     },
                     (err)=>{ 
-                        console.log('ERROR(' + err.code + '): ' + err.message);
+                        //console.log('ERROR(' + err.code + '): ' + err.message);
                         setWeather(-1);
                     }, 
                     {
@@ -69,7 +69,6 @@ const MemoComponenet = (props)=>{
             firebase.auth().onAuthStateChanged((user)=>{
             if (user) {
                 // 使用者已登入，可以取得資料
-                //setUserUid(user.uid);
                 userUid.current = user.uid;
                 resolve(user.uid);
             } else {
@@ -103,14 +102,14 @@ const MemoComponenet = (props)=>{
             setTextDisabled(true);
             setAddMemoState(2);
             let pushData = {};
-            if (( weatherRef.current !== undefined )){
+            if (( weather !== -1 )){
                 pushData = {
                     content:memoText,
                     dateMark:firebase.database.ServerValue.TIMESTAMP,
                     color: memoColor,
-                    weatherIcon: weatherRef.current.weather[0].icon,
-                    temp: parseInt(weatherRef.current.main.temp),
-                    weather:weatherRef.current.weather[0].description
+                    weatherIcon: weather.weather[0].icon,
+                    temp: parseInt(weather.main.temp),
+                    weather:weather.weather[0].description
                 }
             } else {
                 pushData = {
@@ -183,8 +182,11 @@ const MemoComponenet = (props)=>{
         fetch(reqUrl)
         .then(res => res.json()) /*把request json化*/
         .then(data => {
-            setWeather(data);
-            weatherRef.current = data;
+            if (data.cod === 429)   {
+                setWeather(-1);
+            } else {
+                setWeather(data);
+            }
         })
         .catch(e => {
             setWeather(-1);
