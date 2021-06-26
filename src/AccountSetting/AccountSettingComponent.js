@@ -74,6 +74,7 @@ const AccountSettingComponent = (props)=>{
                     }
                   });
                 firstRender.current = false;
+                window.scrollTo(0, 0);
             }
         }
     )
