@@ -1,3 +1,10 @@
+# 一句話日記，抒發自己的情緒
+### Firebae(Auth / RealtimeDatabase) / Bulma / React
+
+[https://lab.notes-hz.com/apps/one-sen-day/](https://lab.notes-hz.com/apps/one-sen-day/)
+
+![LOGO](https://lab.notes-hz.com/apps/one-sen-day/static/media/one-sentence-daily.489923c3.svg)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
