@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import Memo from './Memo/Memo.js';
 import LoginForm from './LoginForm/LoginForm.js';
 import firebase from 'firebase/app';
-import 'firebase/app-check';
 import 'firebase/auth';
 import FireBaseConfig from './FireBaseConfig/FireBaseConfig.js';
 import RegisterFrom from './Register/RegisterForm.js';
@@ -22,11 +21,6 @@ const App = ()=>{
   }
 
   if (process.env.NODE_ENV !== "development") {
-    if (isFirstLoad.current) {
-      const appCheck = firebase.appCheck();
-      appCheck.activate('6Lfs9TQbAAAAANxrKWGaZgx71yy6PHZ26t5CGE4h');
-    }
-
     basename = "/apps/one-sen-day/"
   }
 
