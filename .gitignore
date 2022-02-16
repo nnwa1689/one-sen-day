@@ -13,6 +13,7 @@
 
 # firebase config
 /src/FireBaseConfig/*.js
+/src/Memo/OpenweatherAppid.js
 
 # misc
 .DS_Store

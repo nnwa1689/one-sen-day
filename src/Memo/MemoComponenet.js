@@ -4,6 +4,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
+import OpenweatherAppid from './OpenweatherAppid';
 import './memo.css';
 import '../bulma.css';
 
@@ -178,7 +179,7 @@ const MemoComponenet = (props)=>{
     }
 
     const getWeather = ()=>{
-        const reqUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" + loacinfo.current.latitude +"&lon=" + loacinfo.current.longitude +"&APPID=bca993382423bbac227d1ef64fe18407&lang=zh_tw&units=metric"
+        const reqUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" + loacinfo.current.latitude +"&lon=" + loacinfo.current.longitude +"&APPID=" + OpenweatherAppid + "&lang=zh_tw&units=metric"
         fetch(reqUrl)
         .then(res => res.json()) /*把request json化*/
         .then(data => {
