@@ -58,7 +58,7 @@ const AccountSettingComponent = (props)=>{
         firebase.database().ref('/oneSenDay/' + userUid.current).once("value", e => {
           }).then(
             (e)=>{
-                setPostCount(Object.keys(e.val()).length);
+                setPostCount(e.val() === null || e.val() === undefined ? 0 : Object.keys(e.val()).length);
             }
           )
     }
@@ -87,7 +87,7 @@ const AccountSettingComponent = (props)=>{
                             <div className="media-content">
                                 <div className="columns">
                                     <div className="column is-half">
-                                        <article className="tile is-child notification is-primary">
+                                        <article className="tile is-child notification is-success">
                                             <p className="title">嗨)^o^(</p>
                                             <p className="subtitle">{ userMail }，感覺還好嗎？有遇到什麼問題或是趣事嗎？</p>
                                         </article>
@@ -102,7 +102,7 @@ const AccountSettingComponent = (props)=>{
                                     </div>
                                 </div>
                                 <br></br>
-                                <p className="subtitle is-4">帳號密碼設定</p>
+                                <p className="subtitle is-3">密碼設定</p>
 
                                 { updatePwState===1 ? 
                                 (
@@ -161,7 +161,7 @@ const AccountSettingComponent = (props)=>{
                                 <div className="field-body">
                                     <div className="field">
                                     <p className="control">
-                                        <input id="new-password" disabled={ (updatePwState === 2|| updatePwState===1)? true:false } className="input" type="password" placeholder="******" value={newPw} onChange={ (e)=>(setNewPw(e.target.value))  }/>
+                                        <input id="new-password" disabled={ (updatePwState === 2|| updatePwState===1)? true:false } className="input is-large" type="password" placeholder="******" value={newPw} onChange={ (e)=>(setNewPw(e.target.value))  }/>
                                     </p>
                                     </div>
                                 </div>
@@ -174,7 +174,7 @@ const AccountSettingComponent = (props)=>{
                                 <div className="field-body">
                                     <div className="field">
                                     <p className="control">
-                                        <input id="re-new-password" disabled={ (updatePwState === 2|| updatePwState===1)? true:false } className="input" type="password" value={newTwicePw} placeholder="******" onChange={ (e)=>(setTwiceNewPw(e.target.value)) }/>
+                                        <input id="re-new-password" disabled={ (updatePwState === 2|| updatePwState===1)? true:false } className="input is-large" type="password" value={newTwicePw} placeholder="******" onChange={ (e)=>(setTwiceNewPw(e.target.value)) }/>
                                     </p>
                                     </div>
                                 </div>
@@ -187,7 +187,7 @@ const AccountSettingComponent = (props)=>{
                                 <div className="field-body">
                                     <div className="field">
                                     <p className="control">
-                                        <input  id="old-password" disabled={ (updatePwState === 2|| updatePwState===1)? true:false } className="input" type="password" value={ oldPw } placeholder="******" onChange={ (e)=>(setOldPw(e.target.value)) }/>
+                                        <input  id="old-password" disabled={ (updatePwState === 2|| updatePwState===1)? true:false } className="input is-large" type="password" value={ oldPw } placeholder="******" onChange={ (e)=>(setOldPw(e.target.value)) }/>
                                     </p>
                                     </div>
                                 </div>
@@ -201,27 +201,18 @@ const AccountSettingComponent = (props)=>{
                                 (  <button disabled={ (updatePwState === 2|| updatePwState===1)? true:false } className="button is-success is-outlined is-medium is-fullwidth" onClick={updatePassword}>確定</button>)
                                 }
 
-                                <hr/>
-                                <p className="subtitle is-4">關於</p>
+                                <p className="subtitle is-3 mt-6">關於</p>
 
                                 <div className="content is-normal">
                                     <img src={logo} width="325px" />
                                     <p className="title is-4">讓生活變得更簡單</p>
-                                    <p>看厭了那些社交媒體了嗎？是時候該看看自己的心境了。</p>
-                                    <p className="title is-4">只要用一句話</p>
-                                    <p>就簡簡單單紀錄下你的心情</p>
-                                    <p className="title is-4">焦慮失眠了嗎？</p>
-                                    <p>試著寫下心情，抒發出來，也許能讓自己比較安心</p>
+                                    <p>看厭了那些社交媒體了嗎？是時候該看看自己的心境了。只用一句話，簡簡單單紀錄下你的心情。</p>
+                                    <p className="title is-4">焦慮失眠了嗎？找到情緒與生命的出口</p>
+                                    <p>我知道你不愛這個世界，甚至不愛自己，但我們都知道生活仍舊會繼續下去，即便自己如此的分裂與殘破，仍舊必須要替自己找到一個情緒的出口，於是生活很忙碌，用一句話了結自己的今天，不再糾結。</p>
+                                    <p className="title is-4">你終究不愛這世界，也無仿</p>
+                                    <p>對生活與世界充滿失望，甚至覺得自己已經失控？但在這個作品當中，我只想告訴你「即便你終究不愛這個世界，但這個世界仍會有某個地方容下你」。</p>
                                 </div>
-                                <a href="https://lab.notes-hz.com/">
-                                    <span style={ {fontSize: "24px", color: "#028ff3", fontWeight: "bold"} }>Lab</span>
-                                    <span style={ {fontSize: "24px", color: "#FD3E49", fontWeight: "bold"} }>H</span>
-                                    <span style={ {fontSize: "24px", color: "#FF8738", fontWeight: "bold"} }>a</span>
-                                    <span style={ {fontSize: "24px", color: "#FFA900", fontWeight: "bold"} }>z</span>
-                                    <span style={ {fontSize: "24px", color: "#00A752", fontWeight: "bold"} }>u</span>
-                                    <span style={ {fontSize: "24px", color: "#007BEE", fontWeight: "bold"} }>y</span>
-                                    <span style={ {fontSize: "24px", color: "#9B49DF", fontWeight: "bold"} }>a</span>
-                                </a>
+
                             </div>
                         </div>
                     </div>

@@ -9,7 +9,7 @@ const MemoListComponent = (props)=>{
     const shareMemo = (e) =>{
         const memoHash = e.currentTarget.value;
         const memoElement = document.getElementById('shareContainer').appendChild(document.getElementById(memoHash).cloneNode(true));
-        memoElement.append("一句話日記 - 從此愛上簡單生活", document.createElement('br'),"https://lab.notes-hz.com/apps/one-sen-day")
+        memoElement.append("一句話日記 - 從此愛上簡單生活", document.createElement('br'),"https://dev.n-d.tw/apps/one-sen-day")
         htmlToImage.toJpeg(memoElement, { quality: 0.95 })
         .then(function (dataUrl) {
             var link = document.createElement('a');
@@ -27,7 +27,6 @@ const MemoListComponent = (props)=>{
         ()=>{
             if (props.ads){
                 //init googleAds
-                (window.adsbygoogle = window.adsbygoogle || []).push({});
             }
 
         }
@@ -60,9 +59,11 @@ const MemoListComponent = (props)=>{
                 <div className="card-content">
                     <section className={"hero " + props.memoColor}  id={ props.memoHash }>
                         <div className="hero-body">
-                            <p className="title">
-                            {props.memoContent}
-                            </p>
+                        {props.memoContent.length > 20 ?
+                            <p className='is-size-5'>{props.memoContent}</p> 
+                            :
+                            <p className='is-size-3'>{props.memoContent}</p>  
+                        }
                         </div>
                     </section>
                 </div>
@@ -85,14 +86,7 @@ const MemoListComponent = (props)=>{
                 </footer>
             </div>
             { props.ads ?
-            <div key={ props.key }>
-                <ins className="adsbygoogle"
-                style={ {display: "block"}}
-                data-ad-format="fluid"
-                data-ad-layout-key="-gw-3+1f-3d+2z"
-                data-ad-client="ca-pub-3826338280068687"
-                data-ad-slot="2053696274"/>
-            </div> 
+            ""
             :""}
         </div>
     )

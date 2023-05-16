@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, memo} from 'react';
 import MemoListComponent from './MemoListComponent';
 import InfiniteScroll from 'react-infinite-scroller';
+import Typed from 'react-typed';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
@@ -198,7 +199,7 @@ const MemoComponenet = (props)=>{
         return(
             <div>
                 <br/><br/><br/>
-                <progress className="progress is-small is-primary" max="100"></progress>
+                <progress className="progress is-large is-black" max="100"></progress>
             </div>            
         )
     } else {
@@ -241,9 +242,20 @@ const MemoComponenet = (props)=>{
                 }
                 <div className="columns body-columns">
                     <div className="column is-half is-offset-one-quarter">
-                        <section className="hero is-primary">
+                        <section className="card">
                             <div className="hero-body">
-                                <p className="title is-4">"用簡單一句話描述心情"</p>
+                                <p type="text" className="title is-3 has-text-success">
+                                    <Typed
+                                        strings={[
+                                            '嗨，今天好嗎？',
+                                            '就算你終究不愛這個世界',
+                                            '別忘記還有我愛你！！',
+                                            '用一句話總結今天吧！']}
+                                        typeSpeed={60}
+                                        backSpeed={40}
+                                        backDelay={3000}
+                                    />
+                                </p>
                                 { (weather !== -1) ? 
                                     <p className="subtitle is-6"><img src={ "https://openweathermap.org/img/wn/" +  weather.weather[0].icon + "@2x.png" } width="32" height="32" />
                                         { parseInt(weather.main.temp, 10) }°C，{ weather.weather[0].description }
@@ -263,13 +275,13 @@ const MemoComponenet = (props)=>{
                                             </div>
                                         </div>
                                     </div>
-                                    <p>你的心情比較像是什麼顏色？</p>
+                                    <p className='title is-5'>你的心情比較像是什麼顏色？</p>
                                         <div className="center">
-                                            <button disabled={ textDisabled } className="button is-rounded" onClick={setColorWhite}>無</button>
-                                            <button disabled={ textDisabled } className="button is-warning is-rounded" onClick={setColorYellow}>黃</button>
-                                            <button disabled={ textDisabled } className="button is-link is-rounded" onClick={setColorBlue}>藍</button>
-                                            <button disabled={ textDisabled } className="button is-success is-rounded" onClick={setColorGreen}>綠</button>
-                                            <button disabled={ textDisabled } className="button is-danger is-rounded" onClick={setColorRed}>紅</button>
+                                            <button disabled={ textDisabled } className="button mr-2 is-white is-large" onClick={setColorWhite}>無</button>
+                                            <button disabled={ textDisabled } className="button is-warning mr-2 is-large" onClick={setColorYellow}>黃</button>
+                                            <button disabled={ textDisabled } className="button is-link mr-2 is-large" onClick={setColorBlue}>藍</button>
+                                            <button disabled={ textDisabled } className="button is-success mr-2 is-large" onClick={setColorGreen}>綠</button>
+                                            <button disabled={ textDisabled } className="button is-danger mr-2 is-large" onClick={setColorRed}>紅</button>
                                         </div>
                                 </div>
                             </div>
@@ -304,7 +316,7 @@ const MemoComponenet = (props)=>{
                                 hasMore={hasData.current}
                                 loader={
                                 <div key="-1">
-                                    <progress className="progress is-small is-primary" max="100"></progress>
+                                    <progress className="progress is-small" max="100"></progress>
                                 </div> }
                             >
                                 {memoItems.slice(0, pageEnd)}

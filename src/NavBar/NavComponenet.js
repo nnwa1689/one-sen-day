@@ -19,12 +19,12 @@ const NavComponent = (props)=>{
     return(
         <div>
             <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
-            <nav className="navbar is-fixed-top is-white">
+            <nav className="navbar is-fixed-top">
                 <div className="navbar-brand">
                     <Link to="/" className="navbar-item"><p><img src={logo}/></p></Link>
                     <Link to="accountsetting" className="navbar-item"><i className="material-icons">person_outline</i></Link>
                     <a onClick={logout} className="navbar-item"><i className="material-icons">logout</i></a>
-                    <a className="navbar-item"><DarkMode/></a>
+                    {/*<a className="navbar-item"><DarkMode/></a>*/}
                 </div>  
             </nav>
         </div>

@@ -5,8 +5,8 @@
 :root {
   --brandColor: #00A752;
   --background: rgb(247, 247, 247);
-  --textDark: hsla(0, 0%, 0%, 0.66);
-  --textLight: hsla(0, 0%, 0%, 0.33);
+  --textDark: hsla(0, 0%, 0%, 1);
+  --textLight: hsla(0, 0%, 0%, 0.5);
 }
 
 /*
@@ -23,8 +23,9 @@ body {
 
 .register {
   margin-top: 10rem;
-  background: white;
+  background: transparent;
   border-radius: 10px;
+  border: 2px solid #040404;
 }
 
 .left,
@@ -33,7 +34,7 @@ body {
 }
 
 .left {
-  border-right: 5px solid var(--background);
+  border-right: 2px solid #040404;
 }
 
 .left .title {

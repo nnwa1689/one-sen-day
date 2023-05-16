@@ -2,12 +2,12 @@
     --shadowDark: #D9DDE6;
     --background: rgb(247, 247, 247);
     --shadowLight: #EFF5FE;
+    --black:black;
   }
   
 
 
 .msgBox{
-    
     position: fixed;
     z-index: 1;
     background-color: rgba(0, 0, 0, 0.25);
@@ -16,14 +16,12 @@
     justify-content:center;
     align-items: center;
     padding-top: 10%;
-
+    font-size: 18px;
 }
 
 .modal-card{
-
     width:max-content;
     margin: auto;
-
 }
 
 .hero{
@@ -36,22 +34,14 @@
     text-align: center;
 }
 
-.navbar {
-    left: 0;
-    z-index: 2;
-    justify-content: space-around;
-    width: 100%;
-    border-bottom: 1px solid lightgray;
-    margin-bottom: 10px;
-}
 .body-columns {
     margin-top: 6vh;
 }
 .card {
-    margin-top: 3rem;
-    margin-bottom: 3rem;
+    padding: 1.5rem;
     box-shadow: none;
-    border-radius: 10px;
+    border: #0A1931 solid;
+    border-width: 0px 2px 2px 2px;
 }
 .card-content{
     margin-left: 0;
