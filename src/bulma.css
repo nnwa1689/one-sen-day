@@ -5420,7 +5420,7 @@ button.dropdown-item.is-active {
 
 .navbar {
   background-color: #F5EDDC;
-  min-height: 5rem;
+  height: 5rem;
   position: relative;
   z-index: 30;
   border-bottom-style: solid;
@@ -6328,7 +6328,7 @@ a.navbar-item:focus, a.navbar-item:focus-within, a.navbar-item:hover, a.navbar-i
     display: flex;
   }
   .navbar {
-    min-height: 5rem;
+    height: 5rem;
   }
   .navbar.is-spaced {
     padding: 1rem 2rem;

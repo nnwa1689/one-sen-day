@@ -141,7 +141,7 @@ const RegisterFrom = (props)=>{
                             <br />
                             <small>我們絕對不會發送擾人的通知與電子郵件</small>
                             <br/>
-                            <small>請同意我們的〈<a href="https://www.notes-hz.com/page/privacypolicy" target="blank">隱私政策</a>〉</small>
+                            <small>請同意我們的〈<a href="https://studio-44s.tw/page/privacypolicy" target="blank">隱私政策</a>〉</small>
                         </form>
                         </div>
                     </div>
@@ -151,7 +151,7 @@ const RegisterFrom = (props)=>{
                     <br/>
                     <nav className="level">
                         <div className="level-left">
-                            Made with ❤️ by <a href="https:/n-d.tw">筆記設計</a>
+                            Made with <span className='has-text-danger'>❤</span> by <a href="https://studio-44s.tw">studio-44s</a>
                         </div>
                         <div className="level-right">
                         <small className="level-item">&copy; 一句話日記</small>

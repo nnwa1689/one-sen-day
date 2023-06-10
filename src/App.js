@@ -21,7 +21,7 @@ const App = ()=>{
   }
 
   if (process.env.NODE_ENV !== "development") {
-    basename = "/apps/one-sen-day/"
+    basename = "/osd/"
   }
 
   useEffect(

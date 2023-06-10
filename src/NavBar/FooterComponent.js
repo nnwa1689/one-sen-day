@@ -13,7 +13,7 @@ const FooterComponent = (props)=>{
     <footer className="footer">
         <div className="container is-fluid">
             <div className="content has-text-centered">
-                Made with <span className='has-text-danger'>❤</span> by <a href="https://n-d.tw">筆記設計</a>
+                Made with <span className='has-text-danger'>❤</span> by <a href="https://studio-44s.tw">studio-44s</a>
             </div>
         </div>
     </footer>
