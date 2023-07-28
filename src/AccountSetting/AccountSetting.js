@@ -27,7 +27,6 @@ const AccountSetting = (props)=>{
         <>
             <NavComponent></NavComponent>
             <AccountSettingComponent></AccountSettingComponent>
-            <FooterComponent></FooterComponent>
         </>
     )
 }

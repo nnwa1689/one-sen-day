@@ -197,14 +197,16 @@ const MemoComponenet = (props)=>{
 
     if (memoItems==null || weather === 0) {
         return(
-            <div>
-                <br/><br/><br/>
-                <progress className="progress is-large is-black" max="100"></progress>
+            <div className="container is-max-desktop pl-3 pr-3" style={ {height: "100vh",} }>
+                <section className="card is-memoloading">
+                    <br/> <br/>
+                    <progress className="progress is-large is-success mt-6" max="100"></progress>
+                </section>
             </div>            
         )
     } else {
         return(
-            <div>
+            <>
                 {
                     (delMemoState===0) ? 
                     (
@@ -240,93 +242,98 @@ const MemoComponenet = (props)=>{
                 )
                     :("")
                 }
-                <div className="columns body-columns">
-                    <div className="column is-half is-offset-one-quarter">
-                        <section className="card">
-                            <div className="hero-body">
-                                <p type="text" className="title is-3 has-text-success">
-                                    <Typed
-                                        strings={[
-                                            '嗨，今天好嗎？',
-                                            '就算你終究不愛這個世界',
-                                            '別忘記還有我愛你！！',
-                                            '用一句話總結今天吧！']}
-                                        typeSpeed={60}
-                                        backSpeed={40}
-                                        backDelay={3000}
-                                    />
-                                </p>
-                                { (weather !== -1) ? 
-                                    <p className="subtitle is-6"><img src={ "https://openweathermap.org/img/wn/" +  weather.weather[0].icon + "@2x.png" } width="32" height="32" />
-                                        { parseInt(weather.main.temp, 10) }°C，{ weather.weather[0].description }
+
+                <div className="container is-max-desktop pl-3 pr-3">
+                    <div className="columns">
+                        <div className="column">
+                            <section className="card">
+                                <div className="hero-body">
+                                    <p type="text" className="title is-3 has-text-success">
+                                        <Typed
+                                            strings={[
+                                                '嗨，今天好嗎？',
+                                                '就算你終究不愛這個世界',
+                                                '別忘記還有我愛你！！',
+                                                '用一句話總結今天吧！']}
+                                            typeSpeed={60}
+                                            backSpeed={40}
+                                            backDelay={3000}
+                                        />
                                     </p>
-                                :
-                                <article className="message is-danger">
-                                    <div className="message-body">無法取得天氣資訊(~_~;)</div>
-                                </article>
-                                }
-                                <div className="container">
-                                    <div className="content">
-                                        <div className="control">
-                                            <div className="field">
-                                                <div className="control">
-                                                    <textarea rows="1" className="textarea is-medium has-fixed-size" value={memoText} placeholder="我覺得......" onChange={(e)=>(setMemoText(e.target.value))}></textarea>
+                                    { (weather !== -1) ? 
+                                        <p className="subtitle is-6"><img src={ "https://openweathermap.org/img/wn/" +  weather.weather[0].icon + "@2x.png" } width="32" height="32" />
+                                            { parseInt(weather.main.temp, 10) }°C，{ weather.weather[0].description }
+                                        </p>
+                                    :
+                                    <article className="message is-danger">
+                                        <div className="message-body">無法取得天氣資訊(~_~;)</div>
+                                    </article>
+                                    }
+                                    <div className="container">
+                                        <div className="content">
+                                            <div className="control">
+                                                <div className="field">
+                                                    <div className="control">
+                                                        <textarea rows="1" className="textarea is-medium has-fixed-size" value={memoText} placeholder="我覺得......" onChange={(e)=>(setMemoText(e.target.value))}></textarea>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <p className='title is-5'>你的心情比較像是什麼顏色？</p>
+                                            <div className="center">
+                                                <button disabled={ textDisabled } className="button mr-3 is-white is-large" onClick={setColorWhite}>無</button>
+                                                <button disabled={ textDisabled } className="button is-success is-large" onClick={setColorGreen}>綠</button>
+                                            </div>
+                                            <div className="center mt-4">
+                                                <button disabled={ textDisabled } className="button is-warning mr-3 is-large" onClick={setColorYellow}>黃</button>
+                                                <button disabled={ textDisabled } className="button is-link mr-3 is-large" onClick={setColorBlue}>藍</button>
+                                                <button disabled={ textDisabled } className="button is-danger is-large" onClick={setColorRed}>紅</button>
+                                            </div>
                                     </div>
-                                    <p className='title is-5'>你的心情比較像是什麼顏色？</p>
-                                        <div className="center">
-                                            <button disabled={ textDisabled } className="button mr-2 is-white is-large" onClick={setColorWhite}>無</button>
-                                            <button disabled={ textDisabled } className="button is-warning mr-2 is-large" onClick={setColorYellow}>黃</button>
-                                            <button disabled={ textDisabled } className="button is-link mr-2 is-large" onClick={setColorBlue}>藍</button>
-                                            <button disabled={ textDisabled } className="button is-success mr-2 is-large" onClick={setColorGreen}>綠</button>
-                                            <button disabled={ textDisabled } className="button is-danger mr-2 is-large" onClick={setColorRed}>紅</button>
-                                        </div>
                                 </div>
-                            </div>
-                        </section>
-                        { (memoItems === "") ? 
-                        (
-                        <section className="hero is-success is-halfheight">
-                            <div className="hero-body">
-                                <div className="">
-                                <p className="title">
-                                    嗨
-                                </p>
-                                <p className="subtitle">
-                                    快發表你的第一篇一句話日記吧！
-                                </p>
+                            </section>
+                            { (memoItems === "") ? 
+                            (
+                            <section className="hero is-success is-halfheight">
+                                <div className="hero-body">
+                                    <div className="">
+                                    <p className="title">
+                                        嗨
+                                    </p>
+                                    <p className="subtitle">
+                                        快發表你的第一篇一句話日記吧！
+                                    </p>
+                                    </div>
                                 </div>
-                            </div>
-                        </section>
-                        ) 
-                        : 
-                        (
-                            <InfiniteScroll
-                                pageStart={0}
-                                loadMore={
-                                    ()=>{
-                                        setPageEnd(pageEnd + 5);
-                                        if(pageEnd >= memoItems.length){
-                                            hasData.current = false;
+                            </section>
+                            ) 
+                            : 
+                            (
+                                <InfiniteScroll
+                                    pageStart={0}
+                                    loadMore={
+                                        ()=>{
+                                            setPageEnd(pageEnd + 5);
+                                            if(pageEnd >= memoItems.length){
+                                                hasData.current = false;
+                                            }
                                         }
                                     }
-                                }
-                                hasMore={hasData.current}
-                                loader={
-                                <div key="-1">
-                                    <progress className="progress is-small" max="100"></progress>
-                                </div> }
-                            >
-                                {memoItems.slice(0, pageEnd)}
-                            </InfiniteScroll>
-                        )
-                        }
-                        <div id="shareContainer"></div>
+                                    hasMore={hasData.current}
+                                    loader={
+                                    <div key="-1">
+                                        <progress className="progress is-small" max="100"></progress>
+                                    </div> }
+                                >
+                                    {memoItems.slice(0, pageEnd)}
+                                </InfiniteScroll>
+                            )
+                            }
+                            <div id="shareContainer"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </>
         )
     }
 }

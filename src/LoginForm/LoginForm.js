@@ -60,7 +60,7 @@ const LoginForm = (props)=>{
         <section className="hero is-fullheight">
             <div className="hero-body has-text-centered">
                 <div className="login">
-                <img src={logo} width="325px" />
+                    <img src={logo} width="200px" className="ml-6 mr-6" />
                     { (loginState===2 || loginState===5) ? 
                         (
                             <div className="notification is-danger">
@@ -84,47 +84,50 @@ const LoginForm = (props)=>{
                     { loginState===6 ? 
                         (
                             <div className="notification is-danger">
-                                請輸入完整的資訊
+                                底下框框都要填喔！
                             </div>
                         )
                         :
                         ("")
                     }
-                <form>
-                    <div className="field">
-                    <div className="control">
-                        <input disabled={btnDis} className="input is-medium" type="text" placeholder="帳號（E-mail）" autoComplete="username" onChange={(e)=>{setAccount(e.target.value)}} />
-                    </div>
-                    </div>
-                    <div className="field">
-                    <div className="control">
-                        <input disabled={btnDis} className="input is-medium" type="password" placeholder="密碼" autoComplete="current-password" onChange={(e)=>{setPassword(e.target.value)}} />
-                    </div>
-                    </div>
-                    <br />
-                    { loginState===4 ? 
-                        (
-                            <progress className="progress is-small is-success" max="100"></progress>
-                        ) 
-                        : 
-                        (
-                            <button type="button" disabled={btnDis} className="button is-block is-outlined is-fullwidth is-success is-medium" onClick={doLogin}>登入</button>
-                        ) 
-                    }        
-                </form>
-                <br/>
-                <nav className="level">
-                    <div className="level-item has-text-centered">
-                    <div>
-                        <div>
-                            <p>還沒有帳號？</p>
+                    <form>
+                        <div className="field">
+                        <div className="control">
+                            <input disabled={btnDis} className="input is-medium" type="text" placeholder="帳號（E-mail）" autoComplete="username" onChange={(e)=>{setAccount(e.target.value)}} />
                         </div>
-                    </div>
+                        </div>
+                        <div className="field">
+                        <div className="control">
+                            <input disabled={btnDis} className="input is-medium" type="password" placeholder="密碼" autoComplete="current-password" onChange={(e)=>{setPassword(e.target.value)}} />
+                        </div>
+                        </div>
+                        <br />
+                        { loginState===4 ? 
+                            (
+                                <progress className="progress is-small is-success" max="100"></progress>
+                            ) 
+                            : 
+                            (
+                                <button type="button" disabled={btnDis} className="button is-block is-outlined is-fullwidth is-success is-medium" onClick={doLogin}>登入</button>
+                            ) 
+                        }        
+                    </form>
+                    <br/>
+                    <nav className="level">
                         <div className="level-item has-text-centered">
-                            <Link to="/register">建立帳號</Link>
+                        <div>
+                            <div>
+                                <p>還沒有帳號？</p>
+                            </div>
                         </div>
+                            <div className="level-item has-text-centered">
+                                <Link to="/register">建立帳號</Link>
+                            </div>
+                        </div>
+                    </nav>
+                    <div className="content has-text-centered">
+                        Made with <span className='has-text-danger'>❤</span> by <a href="https://studio-44s.tw">studio-44s</a>
                     </div>
-                </nav>
                 </div>
             </div>
         </section>

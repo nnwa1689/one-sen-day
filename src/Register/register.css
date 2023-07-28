@@ -23,8 +23,9 @@ body {
 
 .register {
   margin-top: 10rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
   background: transparent;
-  border-radius: 10px;
   border: 2px solid #040404;
 }
 
@@ -35,6 +36,12 @@ body {
 
 .left {
   border-right: 2px solid #040404;
+}
+
+@media screen and (max-width: 769px) {
+  .left {
+    border-right: 0px;
+  }
 }
 
 .left .title {
@@ -68,15 +75,6 @@ body {
 
 .right small {
   color: var(--textLight);
-}
-
-input {
-  font-size: 1rem;
-}
-
-input:focus {
-  border-color: var(--brandColor) !important;
-  box-shadow: 0 0 0 1px var(--brandColor) !important;
 }
 
 .fab,

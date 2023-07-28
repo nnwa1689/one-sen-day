@@ -11,7 +11,6 @@ const Memo = (props)=>{
         <>
             <NavComponent></NavComponent>
             <MemoComponenet></MemoComponenet>
-            <FooterComponent></FooterComponent>
         </>
     )
 }

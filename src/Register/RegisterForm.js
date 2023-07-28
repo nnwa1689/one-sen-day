@@ -55,11 +55,9 @@ const RegisterFrom = (props)=>{
                 <div className="column is-8 is-offset-2 register">
                     <div className="columns">
                         <div className="column left">
-                        <h1 className="title is-1"><img src={logo} width="325px" /></h1>
-                        <h2 className="subtitle colored is-4">暫時遠離繁雜社群媒體</h2>
-                        <p>厭倦了繁雜的社交媒體？<br/>多久沒寫過日記了？</p>
-                        <h2 className="subtitle colored is-4">靜下心，檢視自己的心境</h2>
-                        <p>沒有壓力，可以毫無顧忌的用一句話來描述今天的生活。</p>
+                        <h1 className="title is-1"><img src={logo} width="200px" /></h1>
+                        <h2 className="subtitle colored is-4">利用「一」日記，與自己好好獨處</h2>
+                        <p>壓抑，不是最好的選擇。與自己對話，才能更認識自己。</p>
                         </div>
                         <div className="column right has-text-centered">
                         <h1 className="title is-4"><span style={ {color: "#00A752"} }>今天</span>就開始，真的很簡單</h1>
@@ -112,7 +110,7 @@ const RegisterFrom = (props)=>{
                             (regState===7) ?
                             (
                             <div className="notification is-danger">
-                                請輸入完整的資訊～
+                                底下框框都要填喔！
                             </div>
                             )
                             :
@@ -154,7 +152,7 @@ const RegisterFrom = (props)=>{
                             Made with <span className='has-text-danger'>❤</span> by <a href="https://studio-44s.tw">studio-44s</a>
                         </div>
                         <div className="level-right">
-                        <small className="level-item">&copy; 一句話日記</small>
+                        <small className="level-item">&copy; 「一」日記</small>
                         </div>
                     </nav>
                 </div>
